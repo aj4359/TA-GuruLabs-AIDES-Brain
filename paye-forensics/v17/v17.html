@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PAYE Forensics v17 | Starter Route Compare</title>
+<style>
+:root{--bg:#0b0b0d;--card:#151518;--text:#f4f1ea;--muted:#a8a39a;--gold:#c6a15b;--green:#5b8c6a;--amber:#c98a3d;--border:#2a292d}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}.wrap{max-width:980px;margin:auto;padding:24px}.hero{padding:28px 0 18px}.eyebrow{color:var(--gold);text-transform:uppercase;letter-spacing:.12em;font-size:12px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px}.big{font-size:clamp(34px,7vw,72px);font-weight:800;letter-spacing:-.04em}.muted{color:var(--muted)}label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px}input,select,button{width:100%;border-radius:12px;border:1px solid var(--border);background:#101012;color:var(--text);padding:12px}button{background:var(--gold);color:#111;font-weight:800;cursor:pointer}.route{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-top:18px}.node{padding:16px;border-radius:16px;border:1px solid var(--border);background:#101012}.arrow{font-size:32px;color:var(--gold)}.status{display:inline-block;padding:5px 9px;border-radius:99px;font-size:12px;font-weight:800}.high{background:#4a2715;color:#ffd7b4}.check{background:#373020;color:#ffe5a6}.ok{background:#203326;color:#c9f4d1}.finding{border-left:3px solid var(--amber);padding:10px 12px;margin:9px 0;background:#111113;border-radius:8px}.timeline{display:flex;gap:8px;overflow:auto;margin-top:16px}.step{min-width:150px;padding:12px;border:1px solid var(--border);border-radius:14px;background:#101012}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}details{margin-top:14px}.guardrail{margin-top:18px;padding:14px;border:1px solid #5c4b2b;border-radius:14px;color:#e7d4a8;background:#17140e}@media(max-width:650px){.route{grid-template-columns:1fr}.arrow{transform:rotate(90deg);text-align:center}}</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">TA GuruLabs | PAYE Forensics v17</div>
+    <div class="big">What should probably have happened?</div>
+    <p class="muted">Compare the starter route suggested by confirmed facts with what appeared on the first payslip. This is a risk check, not a finding of fault.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Starter facts</h3>
+      <label>P45 supplied?</label><select id="p45"><option value="false">No</option><option value="true">Yes</option></select>
+      <label>Starter declaration</label><select id="decl"><option value="C">C</option><option value="B">B</option><option value="A">A</option><option value="">None recorded</option></select>
+      <label>Another job still live?</label><select id="other"><option value="true">Yes</option><option value="false">No</option></select>
+      <label>Previous employment ended?</label><select id="ended"><option value="false">No / unknown</option><option value="true">Yes</option></select>
+    </div>
+    <div class="card">
+      <h3>Codes observed</h3>
+      <label>Previous job code</label><input id="prev" value="1257L" />
+      <label>First payslip code</label><input id="actual" value="1257L" />
+      <label>HMRC current-year code</label><input id="hmrc" value="BR" />
+      <label>Evidence HMRC issued first-payslip code?</label><select id="issued"><option value="false">No / not known</option><option value="true">Yes</option></select>
+      <button id="run">Compare routes</button>
+    </div>
+  </div>
+
+  <div class="card" id="result" style="margin-top:16px">
+    <h3>Expected vs actual</h3>
+    <div class="route">
+      <div class="node"><div class="muted">Expected starter route</div><strong id="expected">Statement C → BR-family</strong><p id="why" class="muted"></p></div>
+      <div class="arrow">→</div>
+      <div class="node"><div class="muted">What payroll shows</div><strong id="actualOut">1257L</strong><p class="muted" id="hmrcOut"></p></div>
+    </div>
+    <div style="margin-top:14px"><span id="badge" class="status check">CHECK</span></div>
+    <div id="findings"></div>
+
+    <div class="timeline">
+      <div class="step"><strong>1. Starter facts</strong><div class="muted">P45 + A/B/C + other live jobs</div></div>
+      <div class="step"><strong>2. Expected route</strong><div class="muted">What those facts point toward</div></div>
+      <div class="step"><strong>3. First payslip</strong><div class="muted">What actually appeared</div></div>
+      <div class="step"><strong>4. HMRC delta</strong><div class="muted">Compare current-year code</div></div>
+      <div class="step"><strong>5. Next action</strong><div class="muted">Check timing/source before escalation</div></div>
+    </div>
+
+    <div class="guardrail" id="guardrail"></div>
+    <details><summary>Adviser JSON</summary><pre class="mono" id="json"></pre></details>
+  </div>
+</div>
+<script type="module">
+import { compareExpectedToActual } from './starter-route-engine.js';
+const $=id=>document.getElementById(id);
+function run(){
+ const r=compareExpectedToActual({
+   hasP45: $('p45').value==='true', declaration:$('decl').value,
+   anotherJobLive:$('other').value==='true', previousJobEnded:$('ended').value==='true',
+   previousJobCode:$('prev').value, actualFirstPayslipCode:$('actual').value,
+   hmrcCurrentYearCode:$('hmrc').value, knownHmrcIssuedCode:$('issued').value==='true'
+ });
+ $('expected').textContent=`${r.expected.route} → ${r.expected.expectedCodeFamily}`;
+ $('why').textContent=r.expected.rationale;
+ $('actualOut').textContent=r.actual.firstPayslipCode || 'Not confirmed';
+ $('hmrcOut').textContent=r.actual.hmrcCurrentYearCode?`HMRC current-year code: ${r.actual.hmrcCurrentYearCode}`:'HMRC current-year code not confirmed';
+ const badge=$('badge'); badge.textContent=r.routeMatchState;
+ badge.className='status '+(r.routeMatchState==='POSSIBLE_MISMATCH'?'high':r.routeMatchState==='NO_OBVIOUS_CONFLICT'?'ok':'check');
+ $('findings').innerHTML=r.findings.length?r.findings.map(f=>`<div class="finding"><strong>${f.id.replaceAll('_',' ')}</strong><br>${f.text}</div>`).join(''):'<p class="muted">No obvious starter-route conflict found from the information entered.</p>';
+ $('guardrail').textContent=r.guardrail;
+ $('json').textContent=JSON.stringify(r,null,2);
+}
+$('run').addEventListener('click',run); run();
+</script>
+</body></html>
