@@ -1,0 +1,12 @@
+<!doctype html><meta charset="utf-8"><title>PAYE Forensics v13 tests</title><pre id="out"></pre><script src="allowance-flow-v13.js"></script><script>
+const tests=[];function t(name,fn){try{fn();tests.push(['PASS',name])}catch(e){tests.push(['FAIL',name,e.message])}}function eq(a,b,msg){if(a!==b)throw new Error((msg||'')+` expected ${b} got ${a}`)}
+t('1257L roughly maps to 12579 coded allowance',()=>eq(PAYEAllowanceFlowV13.codeAllowance('1257L').amount,12579));
+t('BR has no coded allowance',()=>eq(PAYEAllowanceFlowV13.codeAllowance('BR').amount,0));
+t('K code is negative type',()=>eq(PAYEAllowanceFlowV13.codeAllowance('K500').type,'negative'));
+t('Scotland prefix parsed',()=>eq(PAYEAllowanceFlowV13.codeAllowance('S1257L').amount,12579));
+t('Welsh prefix parsed',()=>eq(PAYEAllowanceFlowV13.codeAllowance('C1257L').amount,12579));
+t('detects allowance opportunity with low-paid main job plus BR second job',()=>{const m=PAYEAllowanceFlowV13.analyse([{label:'Job 1',income:8000,taxCode:'1257L'},{label:'Job 2',income:7000,taxCode:'BR'}],12570);if(!m.opportunities.some(x=>x.type==='allocation-check'))throw new Error('no allocation opportunity');});
+t('no false allocation opportunity when allowance fully used',()=>{const m=PAYEAllowanceFlowV13.analyse([{label:'Job 1',income:30000,taxCode:'1257L'},{label:'Job 2',income:7000,taxCode:'BR'}],12570);if(m.opportunities.some(x=>x.type==='allocation-check'))throw new Error('false allocation opportunity');});
+t('illustrative shift capped by headroom',()=>{const m=PAYEAllowanceFlowV13.analyse([{label:'Job 1',income:8000,taxCode:'1257L'},{label:'Job 2',income:7000,taxCode:'BR'}],12570);eq(PAYEAllowanceFlowV13.simulateShift(m,1,9999).shift,m.apparentHeadroom);});
+document.getElementById('out').textContent=tests.map(x=>x.join(' — ')).join('\n');
+</script>
