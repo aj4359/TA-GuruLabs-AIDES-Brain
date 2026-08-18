@@ -1,0 +1,31 @@
+name: PAYE Forensics CI
+
+on:
+  pull_request:
+    paths:
+      - 'paye-forensics/**'
+      - '.github/workflows/paye-forensics-ci.yml'
+  push:
+    paths:
+      - 'paye-forensics/**'
+      - '.github/workflows/paye-forensics-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: paye-forensics
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run deterministic evidence-gating regressions
+        run: npm test

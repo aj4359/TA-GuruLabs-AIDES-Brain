@@ -1,0 +1,15 @@
+<!doctype html><meta charset="utf-8"><title>PAYE Forensics v7 tests</title><pre id="out">Running…</pre><script src="rules-2026-27.js"></script><script src="engine-v2.js"></script><script src="capture-assist-v6.js"></script><script src="case-adapter-v7.js"></script><script>
+const out=document.getElementById('out');let pass=0,fail=0,lines=[];function t(name,fn){try{fn();pass++;lines.push('PASS '+name)}catch(e){fail++;lines.push('FAIL '+name+' — '+e.message)}}function eq(a,b,msg){if(a!==b)throw new Error(msg||`${a} !== ${b}`)}
+let demo=PAYECaptureAssistV6.demoCandidates();
+t('gate rejects unconfirmed extraction',()=>{const g=PAYECaseAdapterV7.ensureConfirmedKeyEvidence(demo);eq(g.ok,false)});
+let partial=demo.map(x=>x.fieldId==='taxCode'?PAYECaptureAssistV6.confirm(x,x.extractedValue):x);
+t('gate still rejects partial confirmation',()=>eq(PAYECaseAdapterV7.ensureConfirmedKeyEvidence(partial).ok,false));
+let confirmed=demo.map(x=>PAYECaptureAssistV6.confirm(x,x.extractedValue));
+t('gate passes required confirmed evidence',()=>eq(PAYECaseAdapterV7.ensureConfirmedKeyEvidence(confirmed).ok,true));
+t('confirmed extraction maps to engine targets',()=>{const b=PAYECaseAdapterV7.buildCase(confirmed,{taxAlreadyDeducted:3800});eq(b.caseInput.newTaxCode,'1129L');eq(b.caseInput.employmentIncome,32000);eq(b.caseInput.savingsInterest,1800);eq(b.caseInput.hmrcStatedUnderpayment,640)});
+t('rejected extraction is not promoted to observed input',()=>{let xs=confirmed.map(x=>x.fieldId==='savings'?PAYECaptureAssistV6.reject(x):x);const b=PAYECaseAdapterV7.buildCase(xs,{savingsInterest:123});eq(b.caseInput.savingsInterest,123);if(b.evidenceLedger.observed.some(x=>x.fieldId==='savings'))throw new Error('rejected savings leaked into observed ledger')});
+t('customer edit overrides extracted value',()=>{let xs=confirmed.map(x=>x.fieldId==='employmentEstimate'?PAYECaptureAssistV6.confirm(x,'£33,500'):x);const b=PAYECaseAdapterV7.buildCase(xs,{});eq(b.caseInput.employmentIncome,33500)});
+t('calculation creates inferred ledger entries',()=>{const b=PAYECaseAdapterV7.buildCase(confirmed,{taxAlreadyDeducted:3800,previousNonSavingsEstimate:30000,previousSavingsEstimate:500,remainingPayPeriods:8});const f=PAYECaseAdapterV7.calculateCase(b);if(!f.evidenceLedger.inferred.length)throw new Error('no inferred evidence');eq(f.result.hmrcStatedUnderpayment,640)});
+t('IYA projection remains illustrative',()=>{const b=PAYECaseAdapterV7.buildCase(confirmed,{taxAlreadyDeducted:3800,remainingPayPeriods:8});const f=PAYECaseAdapterV7.calculateCase(b);if(!f.evidenceLedger.illustrative.every(x=>x.evidenceType==='Illustrative'))throw new Error('projection not illustrative')});
+out.textContent=lines.join('\n')+`\n\n${pass} passed · ${fail} failed`;
+</script>

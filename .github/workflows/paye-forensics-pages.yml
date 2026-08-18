@@ -1,0 +1,59 @@
+name: PAYE Forensics Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'paye-forensics/**'
+      - 'prototypes/paye-forensics/**'
+      - '.github/workflows/paye-forensics-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: paye-forensics-pages
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run PAYE Forensics tests
+        working-directory: paye-forensics
+        run: npm test
+
+  deploy:
+    needs: test
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build static Pages artifact
+        run: |
+          mkdir -p _site/paye-forensics _site/prototypes/paye-forensics
+          cp -R paye-forensics/. _site/paye-forensics/
+          cp -R prototypes/paye-forensics/. _site/prototypes/paye-forensics/
+          cat > _site/index.html <<'EOF'
+          <!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=./paye-forensics/"><title>PAYE Forensics</title><a href="./paye-forensics/">Open PAYE Forensics</a>
+          EOF
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PAYE Forensics — TA GuruLabs</title>
+<style>
+:root{--bg:#0B0B0D;--panel:#151519;--panel2:#1d1d22;--text:#F4F1EA;--muted:#A7A39B;--gold:#C6A15B;--green:#5B8C6A;--amber:#C98A3D;--line:#2b2b31;--danger:#b45d5d}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 20% 0%,#1a1814 0,var(--bg) 34%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}.shell{max-width:1180px;margin:auto;padding:24px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:26px}.brand{font-weight:800;letter-spacing:.08em}.brand span{color:var(--gold)}.badge{border:1px solid var(--line);padding:8px 12px;border-radius:999px;color:var(--muted);font-size:12px}.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:18px}.card{background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 20px 70px rgba(0,0,0,.25)}h1{font-size:clamp(38px,7vw,76px);line-height:.95;margin:4px 0 16px;letter-spacing:-.04em}.kicker{color:var(--gold);text-transform:uppercase;letter-spacing:.16em;font-size:12px;font-weight:700}.lead{font-size:18px;color:#d4d0c8;max-width:720px;line-height:1.55}.quote{font-size:26px;line-height:1.25;margin:10px 0}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}.field{background:#101014;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;width:100%;font-size:15px}select.field{appearance:auto}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{border:0;border-radius:999px;padding:12px 17px;font-weight:800;cursor:pointer}.primary{background:var(--gold);color:#111}.secondary{background:#202026;color:var(--text);border:1px solid var(--line)}.story{margin-top:22px;display:none}.story.active{display:block}.big{font-size:clamp(46px,8vw,92px);font-weight:900;letter-spacing:-.05em}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}.timeline{display:flex;flex-direction:column;gap:10px;margin-top:18px}.step{opacity:.16;transform:translateY(8px);transition:.45s ease;background:#111116;border:1px solid var(--line);border-radius:16px;padding:15px;display:flex;align-items:center;justify-content:space-between;gap:15px}.step.show{opacity:1;transform:none}.step strong{font-size:20px}.step .desc{color:var(--muted);font-size:13px;margin-top:3px}.stack{display:flex;height:150px;align-items:flex-end;gap:6px;margin-top:18px}.bar{flex:1;min-width:40px;background:#23232a;border:1px solid #34343d;border-radius:10px 10px 4px 4px;position:relative;transition:height .5s ease}.bar span{position:absolute;bottom:8px;left:8px;right:8px;font-size:11px;color:#ddd;writing-mode:vertical-rl;transform:rotate(180deg)}.recon{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.metric{padding:15px;border-radius:16px;background:#111116;border:1px solid var(--line)}.metric .n{font-size:28px;font-weight:900}.status{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 11px;font-weight:800;font-size:13px}.likely{background:rgba(91,140,106,.16);color:#9dc7a8;border:1px solid rgba(91,140,106,.45)}.possible{background:rgba(201,138,61,.15);color:#e2b877;border:1px solid rgba(201,138,61,.4)}.unable{background:rgba(180,93,93,.15);color:#e0a0a0;border:1px solid rgba(180,93,93,.4)}.alert{margin-top:12px;padding:13px 14px;border-left:3px solid var(--amber);background:#17140f;border-radius:10px;color:#ddd}.audit{display:none;margin-top:18px;background:#0d0d11;border:1px solid var(--line);border-radius:14px;padding:16px;overflow:auto}.audit pre{white-space:pre-wrap;color:#c8c4bc;font-size:12px}.footer{margin-top:28px;color:#777;font-size:12px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}@media(max-width:800px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.recon{grid-template-columns:1fr}.shell{padding:16px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top"><div class="brand">TA <span>GuruLabs</span> · PAYE Forensics</div><div class="badge">Illustrative reconstruction</div></div>
+  <section class="hero">
+    <div class="card">
+      <div class="kicker">Underpayment Detective</div>
+      <h1>See how HMRC may have got there.</h1>
+      <p class="lead">HMRC gives you the number. PAYE Forensics turns the figures you know into a plain-English, animated reconstruction of a possible route to that result.</p>
+      <div class="actions"><button class="btn primary" id="example">Load example case</button><button class="btn secondary" id="clear">Clear</button></div>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Important</div>
+      <p class="quote">A possible explanation, not a claim about HMRC's internal reasoning.</p>
+      <p class="muted">If the numbers do not reconcile, that is useful information too. It may mean an estimate, tax code detail, benefit, pension, savings figure or tax-deducted amount is missing or wrong.</p>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:18px">
+    <div class="eyebrow">New case</div>
+    <div class="grid">
+      <div><label>Tax year</label><select id="year" class="field"><option>2026/27</option></select></div>
+      <div><label>Jurisdiction</label><select id="jurisdiction" class="field"><option>England & Northern Ireland</option><option>Wales</option><option>Scotland</option></select></div>
+      <div><label>Employment / pension / other non-savings income (£)</label><input id="nonsavings" class="field" type="number" value="32000"></div>
+      <div><label>Savings interest outside ISA (£)</label><input id="savings" class="field" type="number" value="1800"></div>
+      <div><label>ISA income (£) — excluded from ordinary taxable savings</label><input id="isa" class="field" type="number" value="0"></div>
+      <div><label>Dividends (£)</label><input id="dividends" class="field" type="number" value="0"></div>
+      <div><label>Tax already deducted (£)</label><input id="deducted" class="field" type="number" value="3800"></div>
+      <div><label>HMRC stated underpayment / IYA (£)</label><input id="hmrc" class="field" type="number" value="640"></div>
+      <div><label>Old tax code</label><input id="oldcode" class="field" value="1257L"></div>
+      <div><label>New tax code</label><input id="newcode" class="field" value="1129L"></div>
+    </div>
+    <div class="actions"><button class="btn primary" id="run">Run animated reconstruction</button><button class="btn secondary" id="slow">Slow it down</button><button class="btn secondary" id="maths">Show the maths</button></div>
+  </section>
+
+  <section class="story" id="story">
+    <div class="card">
+      <div class="eyebrow">HMRC says</div>
+      <div class="big" id="hmrcBig">£0</div>
+      <div class="muted">underpayment / in-year adjustment</div>
+      <div class="timeline" id="timeline"></div>
+      <div class="stack" id="stack"></div>
+      <div class="recon">
+        <div class="metric"><div class="eyebrow">HMRC stated</div><div class="n" id="mHmrc">£0</div></div>
+        <div class="metric"><div class="eyebrow">Our reconstruction</div><div class="n" id="mRecon">£0</div></div>
+        <div class="metric"><div class="eyebrow">Difference</div><div class="n" id="mDiff">£0</div></div>
+      </div>
+      <div style="margin-top:14px" id="status"></div>
+      <div id="alerts"></div>
+      <div class="audit" id="audit"><pre id="auditPre"></pre></div>
+    </div>
+  </section>
+
+  <div class="footer"><span>TA GuruLabs | PAYE Forensics</span><span>Illustrative estimate based on information entered. Verify against official HMRC records or a qualified adviser where appropriate.</span></div>
+</div>
+<script>
+const £=n=>'£'+Math.round(Number(n||0)).toLocaleString('en-GB');
+const el=id=>document.getElementById(id);
+let speed=650;
+const rules={year:'2026/27',pa:12570,savingsStartMax:5000,psaBasic:1000,psaHigher:500,divAllowance:500,basicBand:37700,basicRate:.20,higherRate:.40,additionalRate:.45};
+function num(id){return Math.max(0,Number(el(id).value||0))}
+function calc(){
+ const jurisdiction=el('jurisdiction').value;
+ const non=num('nonsavings'), sav=num('savings'), isa=num('isa'), div=num('dividends'), deducted=num('deducted'), stated=num('hmrc');
+ const taxableNon=Math.max(0,non-rules.pa);
+ const startBand=Math.max(0,rules.savingsStartMax-taxableNon);
+ const startUsed=Math.min(sav,startBand);
+ const afterStart=Math.max(0,sav-startUsed);
+ const totalBeforeSavings=taxableNon;
+ const provisionalHigher=totalBeforeSavings+afterStart>rules.basicBand;
+ const psa=provisionalHigher?rules.psaHigher:rules.psaBasic;
+ const psaUsed=Math.min(afterStart,psa);
+ const taxableSav=Math.max(0,afterStart-psaUsed);
+ const divTaxable=Math.max(0,div-rules.divAllowance);
+ let remainingBasic=rules.basicBand;
+ const nonBasic=Math.min(taxableNon,remainingBasic); remainingBasic-=nonBasic;
+ const nonHigher=Math.max(0,taxableNon-nonBasic);
+ let tax=nonBasic*rules.basicRate+nonHigher*rules.higherRate;
+ const savBasic=Math.min(taxableSav,remainingBasic); remainingBasic-=savBasic;
+ const savHigher=Math.max(0,taxableSav-savBasic); tax+=savBasic*rules.basicRate+savHigher*rules.higherRate;
+ const divBasic=Math.min(divTaxable,remainingBasic); const divHigher=Math.max(0,divTaxable-divBasic); tax+=divBasic*.1075+divHigher*.3575;
+ const recon=Math.max(0,tax-deducted); const diff=Math.abs(stated-recon);
+ let level=diff<=5?'Likely explanation':diff<=Math.max(50,stated*.15)?'Possible explanation':'Unable to reconcile';
+ if(jurisdiction==='Scotland') level='Unable to reconcile';
+ return {jurisdiction,non,sav,isa,div,deducted,stated,taxableNon,startBand,startUsed,psa,psaUsed,taxableSav,divTaxable,tax,recon,diff,level};
+}
+function steps(r){
+ return [
+  ['Income entered',£(r.non),`Non-savings income used for this reconstruction.`],
+  ['Personal Allowance',£(rules.pa),`Applied before calculating taxable non-savings income.`],
+  ['Taxable non-savings income',£(r.taxableNon),`Income remaining after the Personal Allowance.`],
+  ['Starting rate for savings available',£(r.startBand),`Reduced as taxable non-savings income uses the savings starting-rate band.`],
+  ['Savings covered by starting rate',£(r.startUsed),`Part of your non-ISA savings interest may fall here.`],
+  ['Personal Savings Allowance used',£(r.psaUsed),`Allowance applied to remaining savings interest in this illustration.`],
+  ['Taxable savings after allowances',£(r.taxableSav),`Savings still exposed to tax in this reconstruction.`],
+  ['Estimated tax liability',£(r.tax),`Illustrative total income tax generated from the information entered.`],
+  ['Tax already deducted',£(r.deducted),`Amount entered as already collected through PAYE.`],
+  ['Possible underpayment',£(r.recon),`Difference between reconstructed tax liability and tax already deducted.`]
+ ]
+}
+async function animate(){
+ const r=calc(); el('story').classList.add('active'); el('hmrcBig').textContent=£(r.stated); el('mHmrc').textContent=£(r.stated); el('mRecon').textContent='…'; el('mDiff').textContent='…';
+ const tl=el('timeline'); tl.innerHTML=''; const s=steps(r); s.forEach(x=>{const d=document.createElement('div');d.className='step';d.innerHTML=`<div><strong>${x[0]}</strong><div class="desc">${x[2]}</div></div><strong>${x[1]}</strong>`;tl.appendChild(d)});
+ el('stack').innerHTML=`<div class="bar" style="height:${Math.min(100,35+r.non/800)}%"><span>Non-savings</span></div><div class="bar" style="height:${Math.min(100,20+r.sav/35)}%"><span>Savings</span></div><div class="bar" style="height:${Math.min(100,16+r.div/30)}%"><span>Dividends</span></div><div class="bar" style="height:${Math.min(100,25+r.tax/90)}%"><span>Tax due</span></div><div class="bar" style="height:${Math.min(100,25+r.deducted/90)}%"><span>Tax collected</span></div>`;
+ const nodes=[...document.querySelectorAll('.step')]; for(const n of nodes){await new Promise(res=>setTimeout(res,speed)); n.classList.add('show')}
+ el('mRecon').textContent=£(r.recon); el('mDiff').textContent=£(r.diff);
+ const cls=r.level==='Likely explanation'?'likely':r.level==='Possible explanation'?'possible':'unable'; el('status').innerHTML=`<span class="status ${cls}">${r.level}</span>`;
+ let alerts=''; if(r.isa>0) alerts+=`<div class="alert"><strong>ISA check:</strong> ${£(r.isa)} was kept outside the ordinary taxable savings calculation.</div>`; if(r.jurisdiction==='Scotland') alerts+=`<div class="alert"><strong>Scottish case:</strong> This prototype deliberately refuses to apply England/NI non-savings bands to a Scottish case. Scottish versioned rules must be loaded before reconciliation.</div>`; if(r.level==='Unable to reconcile'&&r.jurisdiction!=='Scotland') alerts+=`<div class="alert"><strong>Numbers do not reconcile:</strong> Check missing income, benefits, pensions, HMRC estimates, tax deducted and tax-code details before drawing a conclusion.</div>`; el('alerts').innerHTML=alerts;
+ el('auditPre').textContent=JSON.stringify({disclaimer:'Possible reconstruction only; not confirmation of HMRC internal reasoning.',ruleSet:rules,input:{jurisdiction:r.jurisdiction,nonSavingsIncome:r.non,savingsOutsideISA:r.sav,isaIncome:r.isa,dividends:r.div,taxAlreadyDeducted:r.deducted,hmrcStated:r.stated},calculation:{taxableNonSavings:r.taxableNon,savingsStartingBandAvailable:r.startBand,savingsStartingBandUsed:r.startUsed,personalSavingsAllowance:r.psa,personalSavingsAllowanceUsed:r.psaUsed,taxableSavings:r.taxableSav,taxableDividends:r.divTaxable,estimatedTax:r.tax,reconstructedUnderpayment:r.recon,difference:r.diff},confidenceState:r.level},null,2);
+ el('story').scrollIntoView({behavior:'smooth'});
+}
+el('run').onclick=animate; el('slow').onclick=()=>{speed=speed===650?1200:650;el('slow').textContent=speed>650?'Normal speed':'Slow it down'}; el('maths').onclick=()=>{const a=el('audit');a.style.display=a.style.display==='block'?'none':'block'}; el('example').onclick=()=>{el('nonsavings').value=32000;el('savings').value=1800;el('isa').value=0;el('dividends').value=0;el('deducted').value=3800;el('hmrc').value=640;el('oldcode').value='1257L';el('newcode').value='1129L';animate()}; el('clear').onclick=()=>document.querySelectorAll('input[type=number]').forEach(i=>i.value=0);
+</script>
+</body>
+</html>
