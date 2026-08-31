@@ -1,0 +1,45 @@
+product:
+  name: ""
+  slug: ""
+  owner: "TA GuruLabs"
+  status: "active"
+
+source_of_truth:
+  repository: ""
+  branch: "main"
+  commit: ""
+  hosted_product_url: ""
+  sync_verified: false
+
+focus:
+  customer_problem: ""
+  primary_user: ""
+  launch_wedge: ""
+  stop_building:
+    - ""
+
+architecture:
+  public_layer:
+    - "customer UI"
+  protected_layer:
+    - "authenticated application APIs"
+  proprietary_layer:
+    - "private heuristics/scoring/orchestration"
+
+execution:
+  codex_heavy_lift: true
+  visual_builder_allowed: true
+  deployment_allowed: false
+  payments_allowed: false
+  one_pr_at_a_time: true
+
+quality_gates:
+  deterministic_regression_required: false
+  mobile_first_required: true
+  accessibility_required: true
+  security_ip_review_required: true
+  live_vs_mocked_report_required: true
+
+release:
+  requires_explicit_release_gate: true
+  production_target: ""
