@@ -1,0 +1,26 @@
+{
+  "transaction_id": "tx-demo-001",
+  "actor": {
+    "id": "aide.scout.v1",
+    "role": "scout",
+    "version": "1.0.0"
+  },
+  "signal": {
+    "headline": "High-materiality procurement opportunity detected",
+    "confidence": 94,
+    "materiality": 96,
+    "sources": [
+      {
+        "type": "public_authoritative_source",
+        "reference": "redacted-demo-source"
+      }
+    ]
+  },
+  "requested_action": {
+    "type": "contact_external_party",
+    "target": "external-programme-contact",
+    "purpose": "request supplier briefing clarification"
+  },
+  "expected_policy_result": "require_human_approval",
+  "execution_state": "blocked_pending_approval"
+}
