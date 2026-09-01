@@ -17,7 +17,26 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: aides_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d aides_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGPASSWORD: postgres
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGDATABASE: aides_test
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -29,3 +48,65 @@ jobs:
       - name: Execute governed transaction proof
         working-directory: aides-trust-control-plane
         run: python demo.py
+      - name: Prepare Supabase-compatible test roles
+        run: |
+          psql -v ON_ERROR_STOP=1 <<'SQL'
+          create role anon nologin;
+          create role authenticated nologin;
+          create role service_role nologin bypassrls;
+          SQL
+      - name: Apply production audit migration
+        run: psql -v ON_ERROR_STOP=1 -f aides-trust-control-plane/supabase_audit.sql
+      - name: Exercise atomic append RPC and verify chain
+        run: |
+          psql -v ON_ERROR_STOP=1 <<'SQL'
+          select public.append_aides_audit_event(
+            '11111111-1111-1111-1111-111111111111'::uuid,
+            'scout-001', 'intelligence', 'signal_observed',
+            'recommend_supplier_briefing', 'sovereign-ai-procurement', null, null,
+            '{"confidence":97,"materiality":96}'::jsonb, '{}'::jsonb
+          );
+          select public.append_aides_audit_event(
+            '11111111-1111-1111-1111-111111111111'::uuid,
+            'policy-engine', 'control-plane', 'approval_requested',
+            'contact_external_party', 'supplier-briefing', 'require_human_approval', null,
+            '{"reason":"consequential external action"}'::jsonb, '{}'::jsonb
+          );
+          select public.append_aides_audit_event(
+            '11111111-1111-1111-1111-111111111111'::uuid,
+            'human-owner', 'approver', 'approval_granted',
+            'contact_external_party', 'supplier-briefing', 'allow', 'human-owner',
+            '{}'::jsonb, '{}'::jsonb
+          );
+          do $$
+          declare v_valid boolean; v_count bigint;
+          begin
+            select linkage_valid, event_count into v_valid, v_count
+            from public.aides_audit_chain_verification
+            where transaction_id = '11111111-1111-1111-1111-111111111111'::uuid;
+            if v_valid is distinct from true or v_count <> 3 then
+              raise exception 'audit chain verification failed: valid=%, count=%', v_valid, v_count;
+            end if;
+          end $$;
+          SQL
+      - name: Prove browser role cannot append directly
+        run: |
+          set +e
+          OUTPUT=$(psql -v ON_ERROR_STOP=1 2>&1 <<'SQL'
+          set role authenticated;
+          insert into public.aides_audit_events (
+            transaction_id, sequence_no, actor_id, actor_role, event_type, event_hash
+          ) values (
+            '22222222-2222-2222-2222-222222222222'::uuid, 1,
+            'browser', 'client', 'signal_observed', 'should-not-insert'
+          );
+          SQL
+          )
+          STATUS=$?
+          set -e
+          echo "$OUTPUT"
+          if [ "$STATUS" -eq 0 ]; then
+            echo 'Expected authenticated direct insert to be denied.' >&2
+            exit 1
+          fi
+          echo "$OUTPUT" | grep -qi 'permission denied'
