@@ -1,0 +1,34 @@
+{
+  "version": "0.1.0",
+  "default": "deny",
+  "consequential_actions": [
+    "spend_money",
+    "publish_external",
+    "contact_external_party",
+    "make_legal_or_regulatory_representation",
+    "delete_or_destroy_data",
+    "change_pricing",
+    "enter_agreement",
+    "material_production_change",
+    "material_security_change"
+  ],
+  "rules": [
+    {
+      "id": "scout-research-public",
+      "actor_role": "scout",
+      "action": "research_public_information",
+      "effect": "allow"
+    },
+    {
+      "id": "scout-recommend",
+      "actor_role": "scout",
+      "action": "create_internal_recommendation",
+      "effect": "allow"
+    },
+    {
+      "id": "external-consequence-gate",
+      "action_group": "consequential_actions",
+      "effect": "require_human_approval"
+    }
+  ]
+}
