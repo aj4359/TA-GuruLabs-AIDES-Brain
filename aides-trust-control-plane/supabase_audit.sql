@@ -34,11 +34,6 @@ alter table public.aides_audit_events enable row level security;
 revoke insert, update, delete on public.aides_audit_events from anon, authenticated;
 grant select on public.aides_audit_events to authenticated;
 
--- Atomic append RPC.
--- The transaction-scoped advisory lock serialises writers for a single
--- transaction_id, preventing two concurrent events from claiming the same
--- sequence number / predecessor hash. Hashing occurs in Postgres over a
--- canonical jsonb representation of the event payload.
 create or replace function public.append_aides_audit_event(
   p_transaction_id uuid,
   p_actor_id text,
@@ -78,7 +73,6 @@ begin
     raise exception 'approval_granted requires approver_id';
   end if;
 
-  -- One writer at a time per governed transaction.
   perform pg_advisory_xact_lock(hashtextextended(p_transaction_id::text, 0));
 
   select event_hash, sequence_no
@@ -125,17 +119,37 @@ begin
 end;
 $$;
 
--- Keep the append path privileged. In Supabase the service_role key bypasses
--- RLS and may execute this function from trusted server code. Browser/client
--- roles are explicitly denied.
 revoke all on function public.append_aides_audit_event(uuid,text,text,text,text,text,text,text,jsonb,jsonb) from public;
 revoke all on function public.append_aides_audit_event(uuid,text,text,text,text,text,text,text,jsonb,jsonb) from anon, authenticated;
 grant execute on function public.append_aides_audit_event(uuid,text,text,text,text,text,text,text,jsonb,jsonb) to service_role;
 
--- Deliberately no UPDATE or DELETE policy. A stored event is never rewritten.
--- Production hardening should also use protected service credentials,
--- signing/key management, immutable or WORM-capable backup/retention, and an
--- independent timestamp/anchor where procurement/security requirements justify it.
+-- Signed checkpoints bind a transaction position to the hash that existed at
+-- that point in time. The proof signer currently uses HMAC-SHA256. Production
+-- should use an asymmetric KMS/HSM-backed signer and publish only verification
+-- material, never the signing key.
+create table if not exists public.aides_audit_checkpoints (
+  id uuid primary key default gen_random_uuid(),
+  transaction_id uuid not null,
+  sequence_no bigint not null,
+  event_hash text not null,
+  signer_id text not null,
+  algorithm text not null,
+  signature text not null,
+  anchor_uri text,
+  created_at timestamptz not null default now(),
+  unique(transaction_id, sequence_no, signer_id),
+  foreign key (transaction_id, sequence_no)
+    references public.aides_audit_events(transaction_id, sequence_no)
+);
+
+create index if not exists aides_audit_checkpoints_tx_idx
+  on public.aides_audit_checkpoints(transaction_id, sequence_no desc);
+
+alter table public.aides_audit_checkpoints enable row level security;
+revoke insert, update, delete on public.aides_audit_checkpoints from anon, authenticated;
+grant select on public.aides_audit_checkpoints to authenticated;
+
+-- Deliberately no client UPDATE/DELETE path for either events or checkpoints.
 
 create or replace view public.aides_audit_transaction_summary as
 select
@@ -151,7 +165,6 @@ select
 from public.aides_audit_events
 group by transaction_id;
 
--- Verification view: each event must point to the immediately preceding hash.
 create or replace view public.aides_audit_chain_verification as
 with ordered as (
   select
@@ -173,3 +186,10 @@ select
   count(*) as event_count
 from ordered
 group by transaction_id;
+
+create or replace view public.aides_latest_audit_checkpoint as
+select distinct on (transaction_id)
+  transaction_id, sequence_no, event_hash, signer_id, algorithm, signature,
+  anchor_uri, created_at
+from public.aides_audit_checkpoints
+order by transaction_id, sequence_no desc, created_at desc;
