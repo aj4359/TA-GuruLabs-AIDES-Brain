@@ -55,8 +55,10 @@ jobs:
           create role authenticated nologin;
           create role service_role nologin bypassrls;
           SQL
-      - name: Apply production audit migration
-        run: psql -v ON_ERROR_STOP=1 -f aides-trust-control-plane/supabase_audit.sql
+      - name: Apply production audit migrations
+        run: |
+          psql -v ON_ERROR_STOP=1 -f aides-trust-control-plane/supabase_audit.sql
+          psql -v ON_ERROR_STOP=1 -f aides-trust-control-plane/runtime_enforcement.sql
       - name: Exercise atomic append RPC and verify chain
         run: |
           psql -v ON_ERROR_STOP=1 <<'SQL'
@@ -89,10 +91,32 @@ jobs:
             end if;
           end $$;
           SQL
-      - name: Prove browser role cannot append directly
+      - name: Exercise privileged runtime intervention RPC
+        run: |
+          psql -v ON_ERROR_STOP=1 <<'SQL'
+          set role service_role;
+          select public.record_aides_runtime_intervention(
+            '11111111-1111-1111-1111-111111111111'::uuid,
+            'aide.scout.v1', 'quarantine', null,
+            'runtime anomaly threshold exceeded',
+            'active', 'quarantined', false, 'control-plane'
+          );
+          reset role;
+          do $$
+          declare v_count bigint;
+          begin
+            select intervention_count into v_count
+            from public.aides_runtime_intervention_summary
+            where transaction_id = '11111111-1111-1111-1111-111111111111'::uuid;
+            if v_count <> 1 then
+              raise exception 'runtime intervention persistence failed: count=%', v_count;
+            end if;
+          end $$;
+          SQL
+      - name: Prove browser roles cannot mutate governance evidence
         run: |
           set +e
-          OUTPUT=$(psql -v ON_ERROR_STOP=1 2>&1 <<'SQL'
+          AUDIT_OUTPUT=$(psql -v ON_ERROR_STOP=1 2>&1 <<'SQL'
           set role authenticated;
           insert into public.aides_audit_events (
             transaction_id, sequence_no, actor_id, actor_role, event_type, event_hash
@@ -102,11 +126,25 @@ jobs:
           );
           SQL
           )
-          STATUS=$?
+          AUDIT_STATUS=$?
+          INTERVENTION_OUTPUT=$(psql -v ON_ERROR_STOP=1 2>&1 <<'SQL'
+          set role authenticated;
+          insert into public.aides_runtime_interventions (
+            transaction_id, actor_id, intervention, reason, state_after,
+            credentials_active_after, requested_by
+          ) values (
+            '22222222-2222-2222-2222-222222222222'::uuid,
+            'browser', 'terminate', 'unauthorised', 'terminated', false, 'browser'
+          );
+          SQL
+          )
+          INTERVENTION_STATUS=$?
           set -e
-          echo "$OUTPUT"
-          if [ "$STATUS" -eq 0 ]; then
-            echo 'Expected authenticated direct insert to be denied.' >&2
+          echo "$AUDIT_OUTPUT"
+          echo "$INTERVENTION_OUTPUT"
+          if [ "$AUDIT_STATUS" -eq 0 ] || [ "$INTERVENTION_STATUS" -eq 0 ]; then
+            echo 'Expected authenticated direct governance writes to be denied.' >&2
             exit 1
           fi
-          echo "$OUTPUT" | grep -qi 'permission denied'
+          echo "$AUDIT_OUTPUT" | grep -qi 'permission denied'
+          echo "$INTERVENTION_OUTPUT" | grep -qi 'permission denied'
