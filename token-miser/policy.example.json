@@ -1,0 +1,29 @@
+{
+  "version": "0.1.0",
+  "default_mode": "balanced",
+  "quality_floor": 0.8,
+  "budgets": {
+    "max_input_tokens": 12000,
+    "max_output_tokens": 2500,
+    "max_estimated_cost_usd": 0.25
+  },
+  "routing": {
+    "allow_cache": true,
+    "prefer_deterministic": true,
+    "tiers": ["reuse", "compute", "lean", "reason", "premium"],
+    "premium_requires_reason": true
+  },
+  "context": {
+    "deduplicate": true,
+    "drop_empty": true,
+    "max_history_items": 20,
+    "reserve_output_tokens": 2500
+  },
+  "telemetry": {
+    "enabled": true,
+    "require_product_id": true,
+    "require_aide_id": false,
+    "record_routing_reason": true,
+    "record_estimated_savings": true
+  }
+}
