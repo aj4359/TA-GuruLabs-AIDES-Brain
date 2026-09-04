@@ -1,0 +1,31 @@
+name: AIDES Governed Work Moat
+
+on:
+  pull_request:
+    paths:
+      - 'aides-trust-control-plane/moat.py'
+      - 'aides-trust-control-plane/test_moat.py'
+      - '.github/workflows/aides-governed-work-moat.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'aides-trust-control-plane/moat.py'
+      - 'aides-trust-control-plane/test_moat.py'
+      - '.github/workflows/aides-governed-work-moat.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: aides-trust-control-plane
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run governed-work moat contract tests
+        run: python -m unittest -v test_moat.py
