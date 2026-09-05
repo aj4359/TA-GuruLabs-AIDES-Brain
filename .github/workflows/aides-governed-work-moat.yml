@@ -26,4 +26,4 @@ jobs:
         with:
           python-version: '3.12'
       - name: Run governed-work moat contract tests
-        run: python -m unittest -v test_moat.py test_governed_transaction.py test_outcome_ledger.py test_workforce_economy.py test_workforce_experiment.py
+        run: python -m unittest -v test_moat.py test_governed_transaction.py test_outcome_ledger.py test_workforce_economy.py test_workforce_experiment.py test_cost_telemetry.py
