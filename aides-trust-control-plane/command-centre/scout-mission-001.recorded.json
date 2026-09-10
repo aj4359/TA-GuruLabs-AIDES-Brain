@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "feed_mode": "RECORDED_OPERATIONAL",
+  "mission_id": "scout-2026-09-11-001",
+  "mission": "Identify one material market change relevant to TA GuruLabs and prepare an evidence-backed recommendation.",
+  "commissioned_by_ref": "authority://human-deployer",
+  "worker_id": "scout",
+  "budget_gbp": "20.00",
+  "measured_cost_gbp": null,
+  "outcome_status": "ACHIEVED",
+  "outcome_ref": "proof/SCOUT_MISSION_001.md",
+  "verified_value_gbp": null,
+  "learning_status": "PROPOSED",
+  "stages": [
+    {"label":"COMMISSION","detail":"Mission commissioned by authorised human","status":"COMPLETE","evidence_ref":"authority://scout-2026-09-11-001"},
+    {"label":"ALLOCATE","detail":"Scout assigned to current public-market investigation","status":"COMPLETE","evidence_ref":"allocation://scout-2026-09-11-001"},
+    {"label":"PLAN","detail":"Bounded task: find one material change and produce one recommendation","status":"COMPLETE","evidence_ref":"plan://scout-2026-09-11-001"},
+    {"label":"PARALLELISE","detail":"Current market, governance and payments evidence searched across independent sources","status":"COMPLETE","evidence_ref":"evidence://scout-2026-09-11-001/search"},
+    {"label":"VERIFY","detail":"Material signal cross-checked against Reuters plus Visa and Mastercard primary material","status":"COMPLETE","evidence_ref":"proof/SCOUT_MISSION_001.md#evidence"},
+    {"label":"GOVERN","detail":"Recommendation only; no external transaction, spend or customer contact authorised","status":"COMPLETE","evidence_ref":"policy://recommendation-only"},
+    {"label":"EXECUTE","detail":"Evidence-backed recommendation prepared for human review","status":"COMPLETE","evidence_ref":"proof/SCOUT_MISSION_001.md#recommendation"},
+    {"label":"MEASURE","detail":"No provider/tool cost receipt was available to this proof run; cost remains unknown","status":"INSUFFICIENT_EVIDENCE","evidence_ref":null},
+    {"label":"OUTCOME","detail":"One material market change identified and a bounded product recommendation produced","status":"COMPLETE","evidence_ref":"proof/SCOUT_MISSION_001.md"},
+    {"label":"LEARN","detail":"Strategic learning proposed but not promoted to authoritative memory","status":"PENDING","evidence_ref":"learning://scout-2026-09-11-001/proposed"}
+  ]
+}
