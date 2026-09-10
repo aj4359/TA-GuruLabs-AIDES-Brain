@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "feed_mode": "SANITISED_DEMO",
+  "mission_id": "scout-demo-001",
+  "mission": "Identify one material market change relevant to TA GuruLabs and prepare an evidence-backed recommendation.",
+  "commissioned_by_ref": "authority://human-deployer",
+  "worker_id": "scout",
+  "budget_gbp": "20.00",
+  "measured_cost_gbp": "3.62",
+  "outcome_status": "ACHIEVED",
+  "verified_value_gbp": null,
+  "learning_status": "PROPOSED",
+  "stages": [
+    {"label":"COMMISSION","detail":"Mission accepted from authorised human","status":"COMPLETE","evidence_ref":"authority://mission-001"},
+    {"label":"ALLOCATE","detail":"Scout selected from already-eligible workforce","status":"COMPLETE","evidence_ref":"allocation://001"},
+    {"label":"PLAN","detail":"Bounded graph + £20 / 900s execution envelope","status":"COMPLETE","evidence_ref":"graph://scout-001"},
+    {"label":"PARALLELISE","detail":"Five independent signal jobs fan out","status":"COMPLETE","evidence_ref":"graph://layer-01"},
+    {"label":"VERIFY","detail":"Fresh-context evidence verification","status":"COMPLETE","evidence_ref":"verification://001"},
+    {"label":"GOVERN","detail":"Authority checked; recommendation is non-executing","status":"COMPLETE","evidence_ref":"policy://001"},
+    {"label":"EXECUTE","detail":"Recommendation prepared for human review","status":"COMPLETE","evidence_ref":"receipt://001"},
+    {"label":"MEASURE","detail":"Provider/tool cost evidence normalised","status":"COMPLETE","evidence_ref":"cost://001"},
+    {"label":"OUTCOME","detail":"Evidence-backed recommendation produced","status":"COMPLETE","evidence_ref":"outcome://001"},
+    {"label":"LEARN","detail":"Learning proposed; human approval still required","status":"PENDING","evidence_ref":"learning://proposed-001"}
+  ]
+}
