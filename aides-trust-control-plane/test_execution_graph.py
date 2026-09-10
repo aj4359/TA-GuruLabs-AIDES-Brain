@@ -62,6 +62,20 @@ class ExecutionGraphTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "cycle"):
             plan.validate()
 
+    def test_consequential_action_must_be_downstream_of_human_gate(self):
+        source = NodeContract("source", "prepare action", frozenset(), frozenset({"payload"}))
+        gate = NodeContract("gate", "approve unrelated review", frozenset(), frozenset({"approval"}))
+        action = NodeContract("action", "external consequential action", frozenset({"payload"}), frozenset({"receipt"}), consequential_action=True)
+        plan = ExecutionGraphPlan(
+            (source, gate, action),
+            (GraphEdge("source", "action", "payload"),),
+            envelope(),
+            verification(),
+            "gate",
+        )
+        with self.assertRaisesRegex(ValueError, "downstream of human gate"):
+            plan.validate()
+
 
 if __name__ == "__main__":
     unittest.main()
