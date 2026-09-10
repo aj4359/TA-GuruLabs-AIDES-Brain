@@ -88,6 +88,7 @@ class ExecutionGraphPlan:
             raise ValueError("human gate node must exist")
 
         incoming = {node.node_id: set() for node in self.nodes}
+        successors = {node.node_id: set() for node in self.nodes}
         for edge in self.edges:
             if edge.from_node not in node_map or edge.to_node not in node_map:
                 raise ValueError("edge references unknown node")
@@ -98,6 +99,7 @@ class ExecutionGraphPlan:
             if edge.artifact not in consumer.required_inputs:
                 raise ValueError("fake edge: downstream node does not require artifact")
             incoming[edge.to_node].add(edge.artifact)
+            successors[edge.from_node].add(edge.to_node)
 
         for node in self.nodes:
             missing = node.required_inputs - incoming[node.node_id]
@@ -106,12 +108,28 @@ class ExecutionGraphPlan:
             if node.consequential_action and self.envelope.human_gate_required_for_consequential_actions:
                 if node.node_id == self.human_gate_node_id:
                     raise ValueError("human gate cannot itself be the consequential action")
+                if not self._reachable(self.human_gate_node_id, node.node_id, successors):
+                    raise ValueError("consequential action must be downstream of human gate")
 
         layers = self.layers()
         if len(layers) > self.envelope.max_depth:
             raise ValueError("graph exceeds depth cap")
         if max((len(layer) for layer in layers), default=0) > self.envelope.max_workers:
             raise ValueError("graph exceeds parallel worker cap")
+
+    @staticmethod
+    def _reachable(start: str, target: str, successors) -> bool:
+        pending = [start]
+        seen = set()
+        while pending:
+            current = pending.pop()
+            if current == target:
+                return True
+            if current in seen:
+                continue
+            seen.add(current)
+            pending.extend(successors[current] - seen)
+        return False
 
     def layers(self) -> Tuple[Tuple[str, ...], ...]:
         node_ids = {node.node_id for node in self.nodes}
