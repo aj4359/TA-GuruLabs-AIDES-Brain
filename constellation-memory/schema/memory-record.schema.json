@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tagurulabs.com/schemas/constellation-memory-record-v0.1.json",
+  "title": "Constellation MemoryRecord v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "type", "subject", "statement", "domain", "status", "confidence", "observedAt", "evidence", "permissions"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "type": { "enum": ["fact", "hypothesis", "decision", "experiment", "correction", "outcome", "lesson"] },
+    "subject": { "type": "string", "minLength": 1 },
+    "statement": { "type": "string", "minLength": 1 },
+    "domain": { "type": "string", "minLength": 1 },
+    "product": { "type": ["string", "null"] },
+    "status": { "enum": ["NEW", "CURRENT", "CONFIRMED", "CONTRADICTED", "DISPUTED", "STALE", "SUPERSEDED", "EXPERIMENTAL", "APPROVED", "REJECTED", "ARCHIVED"] },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "observedAt": { "type": "string", "format": "date-time" },
+    "validFrom": { "type": ["string", "null"], "format": "date-time" },
+    "validUntil": { "type": ["string", "null"], "format": "date-time" },
+    "reviewAt": { "type": ["string", "null"], "format": "date-time" },
+    "supersedes": { "type": "array", "items": { "type": "string" }, "uniqueItems": true, "default": [] },
+    "affectedDecisions": { "type": "array", "items": { "type": "string" }, "uniqueItems": true, "default": [] },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source", "checkedAt"],
+        "properties": {
+          "source": { "type": "string", "minLength": 1 },
+          "sourceType": { "type": ["string", "null"] },
+          "checkedAt": { "type": "string", "format": "date-time" },
+          "supports": { "type": ["boolean", "null"] },
+          "note": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope"],
+      "properties": {
+        "scope": { "enum": ["corporate", "product", "operational", "research", "aide-performance", "restricted"] },
+        "allowedActors": { "type": "array", "items": { "type": "string" }, "uniqueItems": true, "default": [] }
+      }
+    },
+    "links": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "interpretationId": { "type": ["string", "null"] },
+        "decisionId": { "type": ["string", "null"] },
+        "missionId": { "type": ["string", "null"] },
+        "outcomeId": { "type": ["string", "null"] },
+        "lessonId": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
