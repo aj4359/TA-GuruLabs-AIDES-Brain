@@ -10,4 +10,5 @@ class CapabilityDiscoveryTests(unittest.TestCase):
         with self.assertRaises(PermissionError):
             select_approved_capability("audit",[Capability("x",False,1,("audit",))])
 
-if __name__=="__main__": unittest.main()
+if __name__ == "__main__":
+    unittest.main()
