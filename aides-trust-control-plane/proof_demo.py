@@ -1,7 +1,7 @@
 from dataclasses import dataclass, asdict
 from capability_discovery import Capability, select_approved_capability
 from runtime_boundary import MissionEnvelope, RuntimeReceipt, accept_runtime_receipt
-from recovery_contract import RecoveryContract, Reversibility, validate_recovery_contract
+from recovery_contract import RecoveryContract, Reversibility, assert_recovery_ready
 from ta_verified import VerificationRecord, assert_verified
 from verified_outcome_economics import MissionOutcome, cost_per_verified_outcome
 
