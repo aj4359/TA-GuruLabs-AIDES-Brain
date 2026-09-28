@@ -33,7 +33,7 @@ def run_demo() -> ProofDemo:
         timestamp="2026-09-25T00:00:00Z", limitations=["demonstrator fixture"],
         release_decision="VERIFIED_LIMITED_RELEASE")
     assert_verified(verified)
-    cpvo=cost_per_verified_outcome([MissionOutcome(receipt.attributable_cost,True)])
+    cpvo=cost_per_verified_outcome([MissionOutcome(mission.mission_id,receipt.attributable_cost,True)])
     return ProofDemo(
         mission={"id":mission.mission_id,"objective":mission.objective},
         authority={"ref":mission.authority_ref,"max_cost":mission.max_cost},
