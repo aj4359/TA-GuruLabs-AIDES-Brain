@@ -24,7 +24,7 @@ def run_demo() -> ProofDemo:
     ])
     receipt=accept_runtime_receipt(mission,RuntimeReceipt("replaceable-runtime","exec://demo-001",4.0,("evidence://demo-001",),{"outcome":"complete"}))
     recovery=RecoveryContract(Reversibility.YES,"recovery://demo-001","authority://demo-owner","checkpoint://demo-001",True,False)
-    validate_recovery_contract(recovery)
+    assert_recovery_ready(recovery)
     verified=VerificationRecord(
         claim="bounded customer outcome completed",
         acceptance_criteria="evidence present; cost within envelope; recovery defined",
