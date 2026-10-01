@@ -15,6 +15,29 @@ Models are replaceable workers. TA GuruLabs institutional memory remains TA Guru
 
 Start deliberately small: Scout watches 10 defined competitors/products. Each run compares fresh evidence with the accepted current market state and returns only material NEW, CHANGED, CONTRADICTED or STALE findings. Aureus converts useful findings into OBSERVE, INVESTIGATE, RESPOND, BUILD or ESCALATE recommendations. Human corrections update durable rules rather than merely editing today's prose. Accepted actions become AIDES missions. Mission outcomes return to memory.
 
+## Working v0.1 implementation
+
+The dependency-free Node.js implementation now provides:
+
+- an atomic JSON persistence adapter that can later be replaced by PostgreSQL/Supabase without changing the memory contract;
+- a delta engine that classifies evidence as NEW, CHANGED, CONFIRMED or CONTRADICTED;
+- temporal supersession: changed facts remain in history but no longer appear in the current view;
+- a materiality gate, initially set to 0.5;
+- correction ingestion that converts approved human judgement into a durable rule for later runs;
+- scoped retrieval by domain and subject;
+- executable behavioural tests.
+
+Run the proof:
+
+```bash
+cd constellation-memory
+npm test
+```
+
+The key acceptance test records a human correction raising Scout's materiality threshold to 0.75. A later 0.70 finding is then suppressed. This demonstrates that the next run behaves differently because of the previous correction.
+
+The JSON adapter is a proving implementation, not the production concurrency layer. The next storage adapter should use PostgreSQL/Supabase transactions, row-level security and an append-only audit log.
+
 ## Canonical memory states
 
 - NEW
