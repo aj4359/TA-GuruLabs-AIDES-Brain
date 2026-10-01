@@ -1,0 +1,45 @@
+name: Scout Proof Gate
+
+on:
+  pull_request:
+    paths:
+      - "aides-trust-control-plane/**"
+      - "paye-forensics/**"
+      - ".github/workflows/scout-proof-gate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  proof-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test TA VERIFIED contract
+        working-directory: aides-trust-control-plane
+        run: python -m unittest -v test_ta_verified.py
+      - name: Test PAYE Working Proof 001
+        working-directory: paye-forensics
+        run: python -m unittest -v test_working_proof_001.py
+      - name: Generate PAYE proof artifact
+        working-directory: paye-forensics
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from working_proof_001 import reconstruct
+          fixture = json.loads(Path("fixtures/working_proof_001.json").read_text())
+          result = reconstruct(fixture)
+          Path("working-proof-001-result.json").write_text(
+              json.dumps(result, indent=2, sort_keys=True), encoding="utf-8"
+          )
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: paye-working-proof-001
+          path: paye-forensics/working-proof-001-result.json
+          if-no-files-found: error

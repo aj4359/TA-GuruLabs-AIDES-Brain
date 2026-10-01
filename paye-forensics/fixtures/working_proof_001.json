@@ -1,0 +1,14 @@
+{
+  "case_id":"PAYE-PROOF-001-SYNTHETIC",
+  "required_evidence":["P45-ALPHA","P60-BRAVO","CODE-NOTICE-1257L","BIK-MEDICAL-01"],
+  "events":[
+    {"date":"2025-04-06","kind":"EMPLOYMENT_START","source":"STARTER-ALPHA","details":{"employer":"Alpha Ltd"}},
+    {"date":"2025-07-01","kind":"BENEFIT_IN_KIND","source":"BIK-MEDICAL-01","details":{"employer":"Alpha Ltd","benefit":"medical insurance","treatment":"coded"}},
+    {"date":"2025-08-31","kind":"EMPLOYMENT_END","source":"P45-ALPHA","details":{"employer":"Alpha Ltd"}},
+    {"date":"2025-08-25","kind":"EMPLOYMENT_START","source":"STARTER-BRAVO","details":{"employer":"Bravo Services"}},
+    {"date":"2025-09-12","kind":"TAX_CODE_CHANGE","source":"CODE-NOTICE-1257L","details":{"code":"1257L","employment":"Bravo Services"}},
+    {"date":"2025-10-01","kind":"BENEFIT_IN_KIND","source":"BIK-MEDICAL-02","details":{"employer":"Bravo Services","benefit":"medical insurance","treatment":"payrolled"}},
+    {"date":"2026-03-05","kind":"PENSION_INCOME","source":"PENSION-STATEMENT-01","details":{"provider":"Example Pension","gross":420}},
+    {"date":"2026-04-05","kind":"YEAR_END","source":"P60-BRAVO","details":{"employer":"Bravo Services"}}
+  ]
+}
