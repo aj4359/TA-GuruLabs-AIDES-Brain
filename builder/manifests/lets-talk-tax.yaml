@@ -1,0 +1,71 @@
+product:
+  name: "Let's Talk Tax"
+  slug: "lets-talk-tax"
+  owner: "TA GuruLabs"
+  status: "active"
+
+source_of_truth:
+  repository: "UNCONFIRMED — current Lovable source repository not yet visible in connected GitHub installations"
+  branch: "UNCONFIRMED"
+  commit: "UNCONFIRMED"
+  hosted_product_url: "Lovable project 1e3560ed-c5e2-41d9-b6dc-537cf77d305b"
+  sync_verified: false
+
+focus:
+  customer_problem: "Help customers understand why their UK PAYE looks the way it does."
+  primary_user: "Complex PAYE customer with an unexpected tax outcome"
+  launch_wedge: "Why do I owe tax?"
+  customer_entry_points:
+    - "I owe tax"
+    - "My tax changed"
+    - "Check my tax code"
+    - "Explain a document"
+    - "What can I claim?"
+  stop_building:
+    - "full Self Assessment"
+    - "VAT platform"
+    - "Corporation Tax suite"
+    - "bookkeeping"
+    - "full Crypto Tax"
+    - "payroll processing"
+    - "generic dashboards"
+
+architecture:
+  public_layer:
+    - "mobile customer UI"
+    - "Tax Guide explanations"
+    - "My Tax Story presentation"
+  protected_layer:
+    - "authenticated case APIs"
+    - "validated deterministic PAYE calculations"
+    - "document ingestion/extraction"
+  proprietary_layer:
+    - "diagnostic ranking"
+    - "evidence weighting"
+    - "complexity scoring"
+    - "reconciliation heuristics"
+    - "IYA diagnostic reasoning"
+    - "private rule packs"
+    - "AIDES orchestration/system instructions"
+
+execution:
+  codex_heavy_lift: true
+  visual_builder_allowed: true
+  deployment_allowed: false
+  payments_allowed: false
+  one_pr_at_a_time: true
+
+quality_gates:
+  deterministic_regression_required: true
+  mobile_first_required: true
+  accessibility_required: true
+  security_ip_review_required: true
+  live_vs_mocked_report_required: true
+
+release:
+  requires_explicit_release_gate: true
+  production_target: "Lovable hosting unless architecture review changes this"
+
+mission:
+  issue: 5
+  current_status: "BLOCKED: SOURCE OF TRUTH must be verified before Codex edits the current Lovable app"
