@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AIDES Bounded Task v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "task_id",
+    "agent",
+    "owner",
+    "goal",
+    "status",
+    "allowed_actions",
+    "source_scopes",
+    "max_steps",
+    "max_tool_calls",
+    "max_cost_gbp",
+    "stop_condition",
+    "created_at"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{8,80}$"
+    },
+    "agent": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 1200
+    },
+    "status": {
+      "enum": [
+        "queued",
+        "running",
+        "needs_review",
+        "completed",
+        "failed",
+        "stopped"
+      ]
+    },
+    "allowed_actions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "read_approved_source",
+          "draft_internal_report",
+          "propose_action"
+        ]
+      }
+    },
+    "source_scopes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 250
+      }
+    },
+    "max_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 50
+    },
+    "max_tool_calls": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "max_cost_gbp": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "stop_condition": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 500
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "observed_at",
+          "finding"
+        ],
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finding": {
+            "type": "string"
+          },
+          "evidence_ref": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "verified": {
+          "type": "boolean"
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "summary": {
+          "type": "string"
+        },
+        "unresolved": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

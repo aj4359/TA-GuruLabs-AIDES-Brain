@@ -1,0 +1,14 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { assessAction } from "./policy.mjs";
+const task = {status:"running",allowed_actions:["read_approved_source","draft_internal_report"],source_scopes:["approved-news"],max_steps:10,max_tool_calls:15,max_cost_gbp:2};
+test("allows scoped reads",()=> assert.equal(assessAction(task,{type:"read_approved_source",resource:"approved-news"}).allowed,true));
+test("blocks external messages regardless of allowlist",()=> assert.equal(assessAction({...task,allowed_actions:["send_external_message"]},{type:"send_external_message"}).allowed,false));
+test("blocks non-allowlisted source",()=> assert.equal(assessAction(task,{type:"read_approved_source",resource:"customer-data"}).allowed,false));
+test("blocks unknown action",()=> assert.equal(assessAction(task,{type:"run_shell"}).allowed,false));
+test("blocks exhausted steps",()=> assert.equal(assessAction(task,{type:"draft_internal_report"},{steps:10}).allowed,false));
+test("blocks exhausted calls",()=> assert.equal(assessAction(task,{type:"draft_internal_report"},{tool_calls:15}).allowed,false));
+test("blocks exhausted cost",()=> assert.equal(assessAction(task,{type:"draft_internal_report"},{cost_gbp:2}).allowed,false));
+test("blocks stopped tasks",()=> assert.equal(assessAction({...task,status:"stopped"},{type:"draft_internal_report"}).allowed,false));
+test("blocks invalid usage",()=> assert.equal(assessAction(task,{type:"draft_internal_report"},{steps:-1}).allowed,false));
+test("rejects fabricated approvals for payment",()=> assert.equal(assessAction(task,{type:"pay",approved:true}).allowed,false));
