@@ -1,0 +1,22 @@
+name: AIDES governance checks
+on:
+  pull_request:
+    paths:
+      - 'docs/aides-os/**'
+      - '.github/workflows/aides-governance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  governance-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run AIDES OS policy tests
+        run: node --test docs/aides-os/policy.test.mjs
+      - name: Validate JSON schema syntax
+        run: node -e "JSON.parse(require('node:fs').readFileSync('docs/aides-os/task.schema.json','utf8')); console.log('Schema JSON parses')"
