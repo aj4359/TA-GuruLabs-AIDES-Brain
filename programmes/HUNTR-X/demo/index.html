@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HUNTR-X | Mutual Commitment Demo</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#e8f0f6;background:#090e17}*{box-sizing:border-box}body{margin:0}main{max-width:1040px;margin:auto;padding:22px}header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.brand{font-size:1.5rem;font-weight:900;letter-spacing:1px}.accent{color:#47dfba}.muted{color:#b7c2ce}.notice{background:#18313d;border:1px solid #327b81;padding:12px;border-radius:12px;margin:18px 0}.steps{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0}button{cursor:pointer;border:1px solid #46728b;color:white;background:#1a2d40;border-radius:9px;padding:11px 15px;font-weight:700}button.active,button.primary{background:#16a384;color:#07151d;border-color:#16a384}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #79e4ef}section{background:#121f2d;border:1px solid #34475a;border-radius:15px;padding:20px;margin:12px 0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}@media(max-width:650px){.grid{grid-template-columns:1fr}}label{display:block;font-size:.91rem;font-weight:650;margin-bottom:5px}input,select,textarea{width:100%;padding:12px;border:1px solid #658093;background:#0a1521;color:#fff;border-radius:8px;font:inherit}textarea{min-height:74px;resize:vertical}.field{margin:0 0 12px}.checks{display:flex;align-items:center;gap:10px;margin:12px 0}.checks input{width:20px;height:20px}.checks label{margin:0}h1{margin:18px 0 5px;font-size:1.65rem}h2{font-size:1.17rem}.score{font-size:2.5rem;font-weight:900;color:#47dfba}.small{font-size:.87rem}.pill{background:#2f4555;padding:5px 9px;border-radius:12px}.hidden{display:none}pre{white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #36516a;padding:15px;border-radius:10px;background:#07131d}footer{color:#b7c2ce;font-size:.8rem;margin:30px 0}
+</style></head><body><main><header><div class="brand">HUNTR<span class="accent">-X</span></div><span class="pill">TA GuruLabs · Prototype v0.1</span></header>
+<div class="notice"><strong>Fictional data only.</strong> This prototype does not save, transmit or submit any information. Do not enter personal or confidential data. Scores are illustrative—not hiring recommendations.</div>
+<h1>Mutual Commitment Engine</h1><p class="muted">Clear jobs. Committed candidates. Fewer surprises.</p>
+<nav class="steps" aria-label="Workflow"><button class="active" data-tab="client">1 · Client</button><button data-tab="candidate">2 · Candidate</button><button data-tab="summary">3 · Match readiness</button></nav>
+<section id="client"><h2>Client mandate</h2><div class="grid">
+<div class="field"><label for="job">Role title</label><input id="job" value="Multilingual Enterprise Sales Specialist"></div>
+<div class="field"><label for="salary">Base salary (currency and range)</label><input id="salary" value="£65,000–£80,000"></div>
+<div class="field"><label for="location">Location / remote / hybrid policy</label><input id="location" value="Birmingham / hybrid 2 days on site"></div>
+<div class="field"><label for="hours">Working hours</label><input id="hours" value="37.5 per week"></div>
+<div class="field"><label for="benefits">Holiday, bonus and benefits</label><textarea id="benefits">25 days holiday + bank holidays. Variable bonus: terms not supplied.</textarea></div>
+<div class="field"><label for="downsides">Challenges / downsides (be transparent)</label><textarea id="downsides">Quarterly targets, occasional European travel.</textarea></div>
+<div class="field"><label for="deadline">Hiring deadline</label><input id="deadline" value="Within 45 days"></div>
+<div class="field"><label for="fees">Fee / engagement terms</label><input id="fees" value="Proposed only; not agreed"></div>
+</div><div class="checks"><input type="checkbox" id="pain" checked><label for="pain">Genuine hiring need confirmed</label></div><div class="checks"><input type="checkbox" id="decision"><label for="decision">Decision maker accessible</label></div><div class="checks"><input type="checkbox" id="process"><label for="process">Interview process and feedback deadlines agreed</label></div><div class="checks"><input type="checkbox" id="fee"><label for="fee">Commercial fee agreed</label></div><button class="primary" data-next="candidate">Continue to candidate</button></section>
+<section id="candidate" class="hidden"><h2>Candidate readiness (fictional)</h2><div class="grid">
+<div class="field"><label for="skill">Relevant specialist experience</label><select id="skill"><option value="0">Not evidenced</option><option value="1" selected>Evidence verified</option></select></div>
+<div class="field"><label for="language">Required language proficiency</label><select id="language"><option value="0">Not verified</option><option value="1">Verified</option></select></div>
+<div class="field"><label for="availability">Availability</label><input id="availability" value="One month's notice"></div>
+<div class="field"><label for="expectation">Compensation expectations</label><input id="expectation" value="£72,000 base"></div>
+<div class="field"><label for="preferences">Location / travel preferences</label><input id="preferences" value="Hybrid preferred; European travel acceptable"></div>
+<div class="field"><label for="counteroffer">Counteroffer position</label><select id="counteroffer"><option value="0">Not discussed</option><option value="1">Discussed and candidate remains committed</option></select></div>
+</div><div class="checks"><input type="checkbox" id="intent" checked><label for="intent">Candidate confirms a genuine intention to explore the move</label></div>
+<div class="checks"><input type="checkbox" id="consent"><label for="consent">Candidate explicitly consents to representation for this specific role</label></div>
+<button data-next="client">Back</button> <button class="primary" data-next="summary">View readiness</button></section>
+<section id="summary" class="hidden"><h2>Two-sided readiness</h2><div class="grid"><div><div class="muted">Client readiness</div><div class="score" id="clientScore">—</div></div><div><div class="muted">Candidate readiness</div><div class="score" id="candidateScore">—</div></div></div>
+<p class="small muted">Transparent pilot scoring: client = 25 points each for real need, decision-maker access, agreed process, and agreed fee. Candidate = 25 points each for verified skills, verified language, counteroffer discussion and genuine interest. These weights are unvalidated, and no automated employment decision is permitted.</p>
+<p id="gaps" role="status"></p><h2>Opportunity brief</h2><pre id="brief"></pre><button data-next="client">Edit client</button> <button data-next="candidate">Edit candidate</button> <button id="copy" class="primary">Copy opportunity brief</button><p id="copyStatus" role="status"></p>
+<p class="small">Candidate details are never included in the export. Representation consent is shown only as a gate; this demo does not share a CV, contact details or identity.</p></section>
+<footer>© TA GuruLabs · No backend · No tracking · No production recruitment decisions · Experimental local-only demo</footer></main>
+<script>
+'use strict';
+const ids=['job','salary','location','hours','benefits','downsides','deadline','fees','availability','expectation','preferences'];
+const value=id=>(document.getElementById(id).value.trim()||'Not supplied').replace(/[<>]/g,'');
+const checked=id=>document.getElementById(id).checked;
+const selected=id=>document.getElementById(id).value==='1';
+function render(){
+const clientParts=[['genuine hiring need',checked('pain')],['decision maker',checked('decision')],['agreed interview process',checked('process')],['agreed fee',checked('fee')]];
+const candidateParts=[['specialist experience',selected('skill')],['language proficiency',selected('language')],['counteroffer discussion',selected('counteroffer')],['genuine intent',checked('intent')]];
+const score=parts=>parts.filter(x=>x[1]).length*25;
+document.getElementById('clientScore').textContent=score(clientParts)+'/100';
+document.getElementById('candidateScore').textContent=score(candidateParts)+'/100';
+const missing=[...clientParts.map(x=>!x[1]?'Client: '+x[0]:null),...candidateParts.map(x=>!x[1]?'Candidate: '+x[0]:null)].filter(Boolean);
+if(!checked('consent'))missing.unshift('Candidate: consent to representation NOT provided; do not share candidate information');
+const required=['salary','location','hours','benefits','downsides','deadline'];for(const id of required)if(value(id)==='Not supplied')missing.push('Role: '+id+' missing');
+document.getElementById('gaps').textContent=missing.length?'Outstanding checks: '+missing.join(' · '):'No outstanding checks in this illustrative form. Human validation still required.';
+const text=['HUNTR-X · FICTIONAL ROLE BRIEF','Role: '+value('job'),'Salary: '+value('salary'),'Work location: '+value('location'),'Hours: '+value('hours'),'Benefits/holiday/bonus: '+value('benefits'),'Downsides: '+value('downsides'),'Hiring deadline: '+value('deadline'),'Fee status (internal; remove from candidate-facing copy): '+value('fees'),'','Client readiness: '+score(clientParts)+'/100','Candidate readiness (anonymous): '+score(candidateParts)+'/100','Consent to representation: '+(checked('consent')?'Indicated in demo only':'NOT PROVIDED'),'Outstanding: '+(missing.join('; ')||'None in demo'),'','Fictional prototype. Not reviewed, verified, or approved for public distribution.'].join('\n');
+document.getElementById('brief').textContent=text;return text;
+}
+function show(tab){document.querySelectorAll('section').forEach(e=>e.classList.toggle('hidden',e.id!==tab));document.querySelectorAll('[data-tab]').forEach(e=>{const active=e.dataset.tab===tab;e.classList.toggle('active',active);e.setAttribute('aria-current',active?'step':'false')});if(tab==='summary')render();}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.tab)));
+document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.next)));
+document.getElementById('copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(render());document.getElementById('copyStatus').textContent='Brief copied. Check and remove internal commercial terms before external use.';}catch{document.getElementById('copyStatus').textContent='Copy is not available in this browser. Select the brief text manually.'}});
+</script></body></html>
