@@ -1,0 +1,27 @@
+name: TA GuruLabs Night Shift (synthetic sandbox)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 6 * * *'
+permissions:
+  contents: read
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run unit tests
+        run: python -m unittest discover -s night_shift -p 'test_*.py'
+      - name: Run synthetic research desk
+        run: python night_shift/engine.py
+      - name: Store auditable run (30 days)
+        uses: actions/upload-artifact@v4
+        with:
+          name: night-shift-run-${{ github.run_number }}
+          path: night_shift/runs/*.json
+          retention-days: 30
+          if-no-files-found: error
