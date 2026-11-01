@@ -1,0 +1,27 @@
+name: AIDES OS autonomy pilot (dry run)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 7 * * *'
+permissions:
+  contents: read
+jobs:
+  router-dry-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify routing policies
+        run: python -m unittest discover -s aides_os -p 'test_*.py'
+      - name: Generate assignment audit (no actions executed)
+        run: python aides_os/router.py
+      - name: Upload auditable routing plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: aides-autonomy-plan-${{ github.run_number }}
+          path: aides_os/runs/latest.json
+          retention-days: 30
+          if-no-files-found: error
