@@ -13,13 +13,15 @@ ROLES = {
     "release": ("Human", "approval_required"),
 }
 BLOCKED = {"spend", "deploy", "merge", "delete", "secrets", "external_message", "live_trade"}
+ALLOWED = {"inspect": {"read"}, "prototype": {"read", "write_branch"},
+           "test": {"read", "test"}, "document": {"read", "draft"}, "release": set()}
 
 def route(task):
     kind = task.get("type", "")
     if kind not in ROLES:
         return {"id": task.get("id"), "status": "BLOCKED", "reason": "unknown task type"}
     permissions = set(task.get("actions", []))
-    forbidden = sorted(permissions & BLOCKED)
+    forbidden = sorted((permissions & BLOCKED) | (permissions - ALLOWED[kind]))
     if forbidden or kind == "release":
         return {"id": task.get("id"), "status": "APPROVAL_REQUIRED",
                 "reason": "controlled action", "restricted_actions": forbidden}
