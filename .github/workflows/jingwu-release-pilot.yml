@@ -1,0 +1,22 @@
+name: Jingwu Media release engine tests
+on:
+  push:
+    paths:
+      - "pilots/jingwu-media/**"
+      - ".github/workflows/jingwu-release-pilot.yml"
+  pull_request:
+    paths:
+      - "pilots/jingwu-media/**"
+      - ".github/workflows/jingwu-release-pilot.yml"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Run release engine tests
+        run: node --test pilots/jingwu-media/release-engine.test.mjs
