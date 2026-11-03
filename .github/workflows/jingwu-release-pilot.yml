@@ -19,4 +19,4 @@ jobs:
         with:
           node-version: "22"
       - name: Run release engine tests
-        run: node --test pilots/jingwu-media/release-engine.test.mjs
+        run: node --test pilots/jingwu-media/*.test.mjs
