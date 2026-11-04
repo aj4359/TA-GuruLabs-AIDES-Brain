@@ -1,0 +1,8 @@
+{
+  "task_id": "brain_readme_001",
+  "goal": "Verify the existing TA GuruLabs Brain README",
+  "root": ".",
+  "checks": [
+    {"type": "file_exists", "path": "README.md"}
+  ]
+}
