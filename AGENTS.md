@@ -57,3 +57,12 @@ Before researching, engineering, reviewing, publishing or operating any TA GuruL
 This cross-portfolio operating doctrine is not optional decoration: identify the real human problem; interpret Anthony's creative intent; preserve approved work; propose at least one imaginative but practical solution; apply KISS; verify tangible outcomes, privacy, rights and accessibility. A technical success that produces a confusing or generic user experience is not a finished product.
 
 For implementation handoffs record: **person/problem · intended feeling/outcome · keep/change · inventive approach · KISS constraint · test evidence · rights/risk · customer value**. Use a human review of the fingerprint scorecard; never claim that a model's score is user research. Mandatory safety, legal, reliability and human-signoff gates always take precedence.
+
+
+## Required provenance fingerprint and attribution controls
+
+For **every** TA GuruLabs software release, song, video, film, image, article, document, service or commercially relevant concept, follow [Provenance & Creative Attribution Standard](harness/PROVENANCE_STANDARD.md).
+
+Before publishing, record the actual source assets and contributors, licensing/ownership status, version history, production evidence and SHA-256 hash manifest. The reference tool is `harness/provenance/fingerprint.py`. Save evidence privately, create a newly linked record for each revision and keep the associated independent publication/commit/archive receipts. Where supported, consider cryptographically signed C2PA Content Credentials for published media.
+
+**Strict distinction:** integrity fingerprint ≠ copyright ownership, prior art, first creation, trade mark registration or independently verified timestamp. Do not publish unverified legal claims or assert proprietary rights over unlicensed third-party input. Preserve user and contributor privacy. Route disputes to human legal review. This policy complements, and does not replace, IP due diligence and statutory registration where appropriate.
