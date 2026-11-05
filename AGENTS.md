@@ -66,3 +66,17 @@ For **every** TA GuruLabs software release, song, video, film, image, article, d
 Before publishing, record the actual source assets and contributors, licensing/ownership status, version history, production evidence and SHA-256 hash manifest. The reference tool is `harness/provenance/fingerprint.py`. Save evidence privately, create a newly linked record for each revision and keep the associated independent publication/commit/archive receipts. Where supported, consider cryptographically signed C2PA Content Credentials for published media.
 
 **Strict distinction:** integrity fingerprint ≠ copyright ownership, prior art, first creation, trade mark registration or independently verified timestamp. Do not publish unverified legal claims or assert proprietary rights over unlicensed third-party input. Preserve user and contributor privacy. Route disputes to human legal review. This policy complements, and does not replace, IP due diligence and statutory registration where appropriate.
+
+
+## Disaster recovery and out-of-ChatGPT continuity — mandatory
+
+A creation is not considered safely preserved merely because it appears in a chat. At **creation/export/commit time**, register its owner, source location, SHA-256, project, version and verified off-ChatGPT recovery route.
+
+- For Git-managed files, each push to `main` triggers the independent `continuity-snapshot.yml` GitHub Actions workflow and maintains a downloadable Git bundle release with checksums.
+- For important audio/video/image masters and user-approved document bundles, preserve originals and an encrypted/private off-platform copy. The current designated vault is the PRIVATE Google Drive folder `TA_GuruLabs/TA_GuruLabs_Continuity_Vault`, ID `1w4C4v5sXJzsXSQ8E-MOTgLgGwtTn-UJ4`. Do not publish its files or share publicly by default.
+- If Google Drive transfer is unavailable, record a **backup pending** gate and exact source location; do not silently treat a generated chat attachment as durable off-platform storage. When using connected tools, confirm upload and readback; copying is complete only with evidence.
+- Keep source and derived artifacts separately, and preserve older versions where possible. Reversible edits only.
+- Never put secrets, customer PII, private unreleased masters or licence-sensitive footage on public IPFS. Decentralized storage requires encryption *before* upload, controlled recovery key, pinning at >=2 independent providers, and a verified download/decryption test. IPFS alone offers no retention guarantee.
+- Include a short disaster recovery link/instructions on project release handoff. Periodically test restoring both code and media WITHOUT ChatGPT.
+
+See `harness/PROVENANCE_STANDARD.md` for ownership and hashing, and `harness/CONTINUITY_RECOVERY.md` for backups. This is a working repository policy; it cannot automatically intercept or save arbitrary ChatGPT conversations or disconnected apps.
