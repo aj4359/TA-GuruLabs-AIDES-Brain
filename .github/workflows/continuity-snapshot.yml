@@ -1,0 +1,78 @@
+name: Continuity Snapshot — AIDES-Brain
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '37 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: continuity-snapshot-AIDES-Brain
+  cancel-in-progress: false
+
+jobs:
+  continuity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Generate verifiable repository history archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p continuity-export
+          git fetch --all --tags --prune
+          git bundle create "continuity-export/AIDES-Brain.bundle" --all
+          git bundle verify "continuity-export/AIDES-Brain.bundle"
+          git log -n 100 --date=iso-strict --pretty=fuller > continuity-export/RECENT_COMMITS.txt
+          cat > continuity-export/RESTORE.txt <<'EOT'
+          TA GuruLabs continuity archive
+          Backup contains the Git repository history stored in this repository.
+          It does NOT include external videos, chat-only files, third-party assets,
+          cloud databases, deployment secrets, or uncommitted work.
+          
+          Recovery:
+          1. Download the .zip from the repository's Releases page.
+          2. Unzip it.
+          3. Restore with: git clone AIDES-Brain.bundle restored-AIDES-Brain
+          4. Verify hashes using SHA256SUMS and compare against the archived manifest.
+          5. Independently retrieve media from the private Google Drive Continuity Vault.
+          EOT
+          (cd continuity-export && sha256sum "AIDES-Brain.bundle" RECENT_COMMITS.txt RESTORE.txt > SHA256SUMS)
+          python3 - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          bundle=Path("continuity-export/AIDES-Brain.bundle")
+          m={"project":"AIDES-Brain","repository":"aj4359/TA-GuruLabs-AIDES-Brain","sha256":hashlib.sha256(bundle.read_bytes()).hexdigest(),
+             "size_bytes":bundle.stat().st_size,"git_head":os.environ.get("GITHUB_SHA",""),
+             "limits":"Git-managed content only. Not a full off-provider backup."}
+          Path("continuity-export/MANIFEST.json").write_text(json.dumps(m,indent=2)+"\n")
+          PY
+          (cd continuity-export && zip -q -9 "../AIDES-Brain-continuity-latest.zip" "AIDES-Brain.bundle" RECENT_COMMITS.txt RESTORE.txt SHA256SUMS MANIFEST.json)
+          sha256sum "AIDES-Brain-continuity-latest.zip" > "AIDES-Brain-continuity-latest.zip.sha256"
+      - name: Retain run snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: continuity-AIDES-Brain
+          path: |
+            AIDES-Brain-continuity-latest.zip
+            AIDES-Brain-continuity-latest.zip.sha256
+          retention-days: 90
+      - name: Publish independent GitHub release download
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="continuity-AIDES-Brain-latest"
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" --title "AIDES-Brain Continuity Snapshot" --notes "Automated restorable Git history snapshot. Does not include externally stored media or secrets." --latest=false
+          fi
+          gh release upload "$TAG" "AIDES-Brain-continuity-latest.zip" "AIDES-Brain-continuity-latest.zip.sha256" --clobber
+          gh release view "$TAG" --json url --jq .url
