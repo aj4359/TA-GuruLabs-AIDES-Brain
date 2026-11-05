@@ -1,0 +1,25 @@
+{
+  "schema": "ta-gurulabs.provenance.pilot.v1",
+  "brand": "TA GuruLabs / JingWu Media Productions",
+  "pilot_status": "HASH_RECORD_CREATED_LOCALLY",
+  "signing_status": "UNSIGNED",
+  "independent_timestamp_status": "NOT_APPLIED",
+  "legal_rights_status": "UNVERIFIED",
+  "warning": "These SHA-256 digests document byte-for-byte integrity of files previously supplied or created in ChatGPT; they do not independently prove who created or owns the works.",
+  "records": [
+    {
+      "asset_id": "JWM-TOTL-AUDIO-001",
+      "file_name": "Turn on the Light (Punjabi - Sugar Cane Mix) 2.mp3",
+      "file_size_bytes": 4198899,
+      "sha256": "e0e4715c87a0e246baf2c5650d5d724ca528cc42dfe68a1d08970621a16e29e6",
+      "rights": "UNVERIFIED"
+    },
+    {
+      "asset_id": "JWM-TOTL-WORKPRINT-001",
+      "file_name": "JingWu_Turn_On_The_Light_Restored_Dancers_Full.mp4",
+      "file_size_bytes": 40494038,
+      "sha256": "5c85552b5deb0873f49ce2507566e78df07bbfa00483bd67c481619ebe84698e",
+      "rights": "UNVERIFIED"
+    }
+  ]
+}
