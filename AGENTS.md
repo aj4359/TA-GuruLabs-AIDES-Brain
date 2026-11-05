@@ -50,3 +50,10 @@ Before calling a build complete:
 **Codex is not the emergency backup. Codex is part of the standard TA GuruLabs build system.**
 
 This policy applies across TA GuruLabs products, including SIGMA, ASR, JobGenius, AEGIS, BMK, DocuGod, Token Miser, MigrateIQ, and future products.
+## Required TA GuruLabs Creative Fingerprint (all AIDEs)
+
+Before researching, engineering, reviewing, publishing or operating any TA GuruLabs product, **read and apply [Human-Centred Creative Fingerprint](harness/HUMAN_CREATIVE_FINGERPRINT.md)**.
+
+This cross-portfolio operating doctrine is not optional decoration: identify the real human problem; interpret Anthony's creative intent; preserve approved work; propose at least one imaginative but practical solution; apply KISS; verify tangible outcomes, privacy, rights and accessibility. A technical success that produces a confusing or generic user experience is not a finished product.
+
+For implementation handoffs record: **person/problem · intended feeling/outcome · keep/change · inventive approach · KISS constraint · test evidence · rights/risk · customer value**. Use a human review of the fingerprint scorecard; never claim that a model's score is user research. Mandatory safety, legal, reliability and human-signoff gates always take precedence.
