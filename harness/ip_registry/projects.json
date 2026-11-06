@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "policy": "harness/UNIVERSAL_IP_DATA_RECOVERY.md",
+  "last_scope_audit": "2026-11-06",
+  "protection_state_legend": {
+    "PENDING": "Not yet evidenced copied",
+    "PARTIAL": "Only some material accounted for",
+    "COPIED": "Off-platform file copy with upload/metadata readback",
+    "RESTORE_VERIFIED": "Representative independent download, hash and open test passed"
+  },
+  "projects": [
+    {
+      "id": "SICARIO",
+      "name": "Sicario Dead Man Walking",
+      "classification": "CONFIDENTIAL_IP",
+      "status": "COPIED",
+      "evidence_note": "Verified private core and action ZIPs; full restore check outstanding",
+      "asset_manifest": "https://github.com/aj4359/TA-GuruLabs-Studio/blob/main/continuity/sicario_media_manifest.json",
+      "backup_proof": {
+        "core_drive_id": "1r39lRd44K8dE6imac0kIu5KaGsPOzHS6",
+        "action_drive_id": "1zHBQcBjdIaR2cZoRfsAtBkWJBXTnBywf",
+        "private_metadata_readback": true
+      },
+      "restore_proof": null,
+      "review_required": true
+    },
+    {
+      "id": "JWM_MUSIC",
+      "name": "JingWuMedia Music Catalog",
+      "classification": "CONFIDENTIAL_IP",
+      "status": "PARTIAL",
+      "evidence_note": "Some creative sources in vault; full stems/catalog not inventoried",
+      "asset_manifest": null,
+      "backup_proof": null,
+      "restore_proof": null,
+      "review_required": true
+    },
+    {
+      "id": "FILMOS",
+      "name": "FilmOS Production Stack",
+      "classification": "CONFIDENTIAL_IP",
+      "status": "PARTIAL",
+      "evidence_note": "Earlier FilmOS ZIP referenced in vault continuity notes; not exhaustively verified",
+      "asset_manifest": null,
+      "backup_proof": null,
+      "restore_proof": null,
+      "review_required": true
+    },
+    {
+      "id": "PAYE",
+      "name": "PAYE Detective / PAYE Forensics",
+      "classification": "CONFIDENTIAL_IP",
+      "status": "PENDING",
+      "evidence_note": "Source/production data not audited into universal registry",
+      "asset_manifest": null,
+      "backup_proof": null,
+      "restore_proof": null,
+      "review_required": true
+    },
+    {
+      "id": "HUNTR_X",
+      "name": "HUNTR-X Recruiter and Jobseeker",
+      "classification": "RESTRICTED_DATA",
+      "status": "PENDING",
+      "evidence_note": "Candidate information requires separated GDPR-compliant storage",
+      "asset_manifest": null,
+      "backup_proof": null,
+      "restore_proof": null,
+      "review_required": true
+    },
+    {
+      "id": "SIGMA",
+      "name": "Sigma Trading Research",
+      "classification": "CONFIDENTIAL_IP",
+      "status": "PENDING",
+      "evidence_note": "Trading code, logs and secrets require segregated backups",
+      "asset_manifest": null,
+      "backup_proof": null,
+      "restore_proof": null,
+      "review_required": true
+    },
+    {
+      "id": "AEGIS",
+      "name": "AEGIS Relationship Product",
+      "classification": "RESTRICTED_DATA",
+      "status": "PENDING",
+      "evidence_note": "User relationship records must not enter general creative vault",
+      "asset_manifest": null,
+      "backup_proof": null,
+      "restore_proof": null,
+      "review_required": true
+    },
+    {
+      "id": "SAS",
+      "name": "SAS Men's Wellness",
+      "classification": "RESTRICTED_DATA",
+      "status": "PENDING",
+      "evidence_note": "Health data requires enhanced access and retention safeguards",
+      "asset_manifest": null,
+      "backup_proof": null,
+      "restore_proof": null,
+      "review_required": true
+    },
+    {
+      "id": "WMJ",
+      "name": "West Midlands Journey",
+      "classification": "CONFIDENTIAL_IP",
+      "status": "PENDING",
+      "evidence_note": "Code, assets and operational data to inventory",
+      "asset_manifest": null,
+      "backup_proof": null,
+      "restore_proof": null,
+      "review_required": true
+    },
+    {
+      "id": "PENSIONS",
+      "name": "Pension Finder",
+      "classification": "RESTRICTED_DATA",
+      "status": "PENDING",
+      "evidence_note": "Potential personal/NI data separated from IP vault",
+      "asset_manifest": null,
+      "backup_proof": null,
+      "restore_proof": null,
+      "review_required": true
+    },
+    {
+      "id": "PENNY",
+      "name": "Procurement AIDE",
+      "classification": "CONFIDENTIAL_IP",
+      "status": "PENDING",
+      "evidence_note": "Code/templates to inventory",
+      "asset_manifest": null,
+      "backup_proof": null,
+      "restore_proof": null,
+      "review_required": true
+    },
+    {
+      "id": "AIDES",
+      "name": "TA GuruLabs AIDES Brain",
+      "classification": "INTERNAL",
+      "status": "PARTIAL",
+      "evidence_note": "GitHub repository and snapshot process exist; restore evidence audit pending",
+      "asset_manifest": null,
+      "backup_proof": null,
+      "restore_proof": null,
+      "review_required": true
+    },
+    {
+      "id": "STUDIO",
+      "name": "TA GuruLabs Studio",
+      "classification": "INTERNAL",
+      "status": "PARTIAL",
+      "evidence_note": "GitHub repository, scheduled continuity checks; restore evidence audit pending",
+      "asset_manifest": null,
+      "backup_proof": null,
+      "restore_proof": null,
+      "review_required": true
+    }
+  ]
+}

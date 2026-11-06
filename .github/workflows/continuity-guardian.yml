@@ -24,11 +24,15 @@ jobs:
         shell: bash
         run: |
           python3 continuity/guardian.py --root . --manifest continuity/manifest.json --out continuity_report.json
+      - name: Validate universal IP and data recovery registry
+        run: python3 harness/ip_registry/validate.py harness/ip_registry/projects.json > portfolio_recovery_report.json
       - name: Upload audit report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: continuity-report-${{ github.run_id }}
-          path: continuity_report.json
+          path: |
+            continuity_report.json
+            portfolio_recovery_report.json
           if-no-files-found: warn
           retention-days: 30
