@@ -1,0 +1,40 @@
+{
+  "id": "tagurulabs-central-canon-v1",
+  "project": "TA GuruLabs AIDES Brain — Central Continuity",
+  "canon": "AGENTS.md",
+  "protected_assets": [
+    {
+      "path": "AGENTS.md",
+      "required": true
+    },
+    {
+      "path": "harness/HUMAN_CREATIVE_FINGERPRINT.md",
+      "required": true
+    },
+    {
+      "path": "harness/CONTINUITY_RECOVERY.md",
+      "required": true
+    },
+    {
+      "path": "harness/CREATIVE_CONTINUITY_GUARD.md",
+      "required": true
+    }
+  ],
+  "required_phrases": [
+    {
+      "path": "harness/CREATIVE_CONTINUITY_GUARD.md",
+      "phrases": [
+        "CONTINUITY PRESERVES AUTHENTICITY",
+        "Maestro",
+        "original source"
+      ]
+    },
+    {
+      "path": "AGENTS.md",
+      "phrases": [
+        "Continuity Guardian"
+      ]
+    }
+  ],
+  "forbidden_phrases": []
+}
