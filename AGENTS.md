@@ -80,3 +80,7 @@ A creation is not considered safely preserved merely because it appears in a cha
 - Include a short disaster recovery link/instructions on project release handoff. Periodically test restoring both code and media WITHOUT ChatGPT.
 
 See `harness/PROVENANCE_STANDARD.md` for ownership and hashing, and `harness/CONTINUITY_RECOVERY.md` for backups. This is a working repository policy; it cannot automatically intercept or save arbitrary ChatGPT conversations or disconnected apps.
+
+
+## Continuity Guardian — mandatory for all AIDEs
+**CONTINUITY PRESERVES AUTHENTICITY.** Before any Maestro, Director, FilmOS, engineering, music, writing, game, product or publishing change, follow [the central Creative Continuity Guard](harness/CREATIVE_CONTINUITY_GUARD.md). Start with the actual approved original material and canonical character/product/music records; preserve prior accepted versions, log changes and verify continuity with security and IP controls as an independent release gate. Genre influence may convey the essence of films or performers, but cannot claim licensed actor or character cameos or use unauthorised identifiable likenesses. Automated repository checks run under `.github/workflows/continuity-guardian.yml`; they do not automatically inspect untransferred off-repo media or replace human visual/audio QA.
