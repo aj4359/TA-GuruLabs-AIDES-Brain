@@ -1,0 +1,34 @@
+name: Continuity Guardian
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: continuity-guardian-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  continuity-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Test guard engine
+        run: python3 -m unittest discover -s continuity -p 'test_*.py' -v
+      - name: Audit canon and protected sources
+        shell: bash
+        run: |
+          python3 continuity/guardian.py --root . --manifest continuity/manifest.json --out continuity_report.json
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: continuity-report-${{ github.run_id }}
+          path: continuity_report.json
+          if-no-files-found: warn
+          retention-days: 30
