@@ -68,3 +68,6 @@ For each request:
 ## Suggested deployment architecture
 AIDE brain role prompt -> orchestrator task -> asset index -> creative shot planner -> deterministic FFmpeg/render worker -> automated QC -> human visual review -> distribution after release approval.
 This markdown file is a role specification; it does not itself launch an agent, grant connectors or execute the renderer.
+
+## Founder creative context
+Before interpreting an artistic brief, consult [Founder Creative DNA](FOUNDER_CREATIVE_DNA.md). Its pattern/feel guidance is subordinate to the founder's latest explicit instructions and actual source footage. Use it to suggest inventive, emotionally coherent treatments rather than to invent approval or imply mind-reading.
