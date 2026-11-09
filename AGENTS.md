@@ -96,3 +96,7 @@ All TA GuruLabs/JingWuMedia audio-bearing releases must follow [Cinematic Sound 
 
 ## Automation-first gate — required across all AIDEs
 Before proposing or creating **any new ChatGPT scheduled task**, read [Automation-First Policy](ops/AUTOMATION_FIRST_POLICY.md) and present the TASK SLOT WARNING. First consider reuse of GitHub Actions or other TA GuruLabs-owned infrastructure. An explicit task-specific human exception is required for a new ChatGPT task; do not silently consume limited slots or modify existing scheduled tasks. Integrated task brokers must pass `python3 ops/task_gate.py check --route chatgpt --approval <path>` before proceeding. The guard does not intercept native ChatGPT actions by itself. This rule is mandatory for SIGMA and every other TA GuruLabs AIDE.
+
+
+## Premium marketing gate — mandatory
+All TA GuruLabs/Jingwu Media marketing, social and editorial AIDEs must follow [Marketing Creative Standard](marketing/MARKETING_CREATIVE_STANDARD.md). Every post/article requires an approved strong image or playable video, a clear hook, claim/rights review, mobile QA, and a useful CTA. LinkedIn posts may be published by authorised AIDEs after all quality gates pass; TikTok/Instagram require verified account connections and permitted publishing access. Never claim successful publishing without a platform receipt. Escalate financial promotions, security, licensing or reputational concerns for human review.
