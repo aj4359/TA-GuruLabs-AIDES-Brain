@@ -51,3 +51,39 @@ if decision.permitted:
 - This module is not wired into existing production runners or dashboards.
 - Test in sandbox first, then integrate one low-risk workflow and compare 7-day baselines.
 - Do not claim 80% savings until measured.
+
+## Provider usage telemetry (second-stage pilot)
+
+`telemetry.py` adds a persistent SQLite usage-event ledger that deduplicates
+events by provider request ID and groups reported input/output tokens, costs,
+failures and unknown-cost records. It does **not** call paid APIs, invent token
+prices or claim the model calls in other apps are already instrumented.
+
+```python
+from resource_governor.telemetry import Telemetry
+telemetry = Telemetry("/persistent/aides/usage.sqlite3")
+telemetry.record(
+    event_id="provider-request-unique-id",
+    workflow="Scout", provider="your-provider", model="model-from-response",
+    input_tokens=120, output_tokens=30,
+    provider_cost_usd=None,
+    source="provider_usage_response",
+)
+print(telemetry.summary())
+```
+
+- Configure the database path to an **existing backed-up persistent filesystem**
+  shared by the actual runner(s). Never use GitHub Actions' temporary workspace
+  to claim cross-run durability. SQLite on a network filesystem may need a
+  different transactional database.
+- Log `provider_cost_usd` only when known from a genuine provider billing
+  source. Null means unknown, not zero. Never equate token count to money
+  without explicit provider/model tariff and caching terms.
+- Source request IDs must be globally unique; prefix them with provider and
+  workflow if necessary. Avoid storing prompts, API keys, user data or secrets.
+- Do not connect any production provider until credentials, data retention,
+  backup and access controls have been reviewed.
+- Run: `python -m unittest discover -s resource_governor -p 'test_*.py' -v`.
+- The admission controller and usage telemetry are separate components for
+  now. Integration with an actual paid provider needs its execution wrapper,
+  confirmed pricing source, and an atomic budget configuration.
