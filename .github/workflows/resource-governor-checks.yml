@@ -1,0 +1,32 @@
+name: Resource Governor checks
+on:
+  pull_request:
+    paths:
+      - 'resource_governor/**'
+      - '.github/workflows/resource-governor-checks.yml'
+      - '.github/workflows/night-shift.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Governor tests
+        run: python -m unittest discover -s resource_governor -p 'test_*.py' -v
+      - name: Night Shift regression tests
+        run: python -m unittest discover -s night_shift -p 'test_*.py' -v
+      - name: Synthetic pilot audit
+        run: python -m resource_governor.pilot
+      - name: Upload pilot evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: governor-pilot-${{ github.run_number }}
+          path: night_shift/runs/governor-pilot-*.json
+          retention-days: 30
+          if-no-files-found: error

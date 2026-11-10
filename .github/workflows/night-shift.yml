@@ -18,7 +18,7 @@ jobs:
         run: python -m unittest discover -s night_shift -p 'test_*.py'
       - name: Run synthetic research desk
         run: python night_shift/engine.py
-      - name: Store auditable run (30 days)
+      - name: Record observe-only resource governor pilot\n        run: python -m resource_governor.pilot\n      - name: Store auditable run (30 days)
         uses: actions/upload-artifact@v4
         with:
           name: night-shift-run-${{ github.run_number }}
