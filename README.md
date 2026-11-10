@@ -9,3 +9,6 @@ Creative AIDEs should consult [Founder Creative DNA](agents/FOUNDER_CREATIVE_DNA
 
 ## Founder business and inventor compass
 Business, research, engineering, commercial and publishing AIDEs should consult [Founder Business & Inventor DNA](agents/FOUNDER_BUSINESS_INVENTOR_DNA.md) for problem-led invention, show-the-work messaging, first verified revenue, IP protection and approval gates. This is a committed guide, not proof of runtime prompt activation.
+
+## Commercial economics AIDE
+[AUREUS Finance](agents/aureus-finance-commercial-economics.md) owns business economics, recruitment profitability modelling, commercial scenario analysis and first-revenue experiments. Its initial deliverable is a recruiter margin and opportunity desk. This file defines the role; runtime activation and a live product deployment require separate verification.
