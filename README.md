@@ -12,3 +12,6 @@ Business, research, engineering, commercial and publishing AIDEs should consult 
 
 ## Commercial economics AIDE
 [AUREUS Finance](agents/aureus-finance-commercial-economics.md) owns business economics, recruitment profitability modelling, commercial scenario analysis and first-revenue experiments. Its initial deliverable is a recruiter margin and opportunity desk. This file defines the role; runtime activation and a live product deployment require separate verification.
+
+## Digital shop window
+[Commercial Content Operating System](playbooks/DIGITAL_SHOP_WINDOW.md): original B2B product videos, practical business education, AI-narrated explainers, self-service commerce, copyright-safe research, publication gates and verified revenue measurement. Public Learning Desk owns publishing; no new scheduled task.
