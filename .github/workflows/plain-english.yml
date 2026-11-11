@@ -1,0 +1,43 @@
+name: Plain English public-copy check
+
+on:
+  push:
+    paths:
+      - 'content/podcast/**'
+      - 'content/social/**'
+      - 'scripts/check-public-copy.mjs'
+      - '.github/workflows/plain-english.yml'
+  pull_request:
+    paths:
+      - 'content/podcast/**'
+      - 'content/social/**'
+      - 'scripts/check-public-copy.mjs'
+      - '.github/workflows/plain-english.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review-public-copy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check public podcast and social drafts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -d '' docs < <(find content/podcast content/social -type f \( -name '*.md' -o -name '*.txt' \) -print0 2>/dev/null || true)
+          if [ "${#docs[@]}" -eq 0 ]; then
+            echo "No drafts to review"
+            exit 0
+          fi
+          failures=0
+          for file in "${docs[@]}"; do
+            echo "Checking: $file"
+            node scripts/check-public-copy.mjs "$file" || failures=1
+          done
+          exit "$failures"
