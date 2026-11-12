@@ -106,7 +106,12 @@ def transcribe(source: str, language: str = "en") -> str:
     return " ".join(segment.text.strip() for segment in segments).strip()
 
 
-MCP.tool()(register_asset)
+@MCP.tool()
+def add_asset(asset_id: str, path: str, category: str, rights_note: str) -> dict:
+    """Catalogue an audio file for review; MCP tools cannot approve publication."""
+    return register_asset(asset_id, path, category, rights_note, approved_for_publication=False)
+
+
 MCP.tool()(list_assets)
 
 if __name__ == "__main__":
