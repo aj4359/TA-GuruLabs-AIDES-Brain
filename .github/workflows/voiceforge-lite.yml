@@ -1,0 +1,28 @@
+name: VoiceForge Lite checks
+
+on:
+  pull_request:
+    paths:
+      - "voiceforge_lite/**"
+      - "tests/test_voiceforge_library.py"
+      - ".github/workflows/voiceforge-lite.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  local-library-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile prototype Python files
+        run: python -m compileall -q voiceforge_lite tests/test_voiceforge_library.py
+      - name: Run offline, dependency-free catalogue tests
+        run: python -m unittest discover -s tests -p "test_voiceforge_library.py" -v
