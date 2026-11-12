@@ -64,8 +64,8 @@ jobs:
           mkdir -p recovery-test
           unzip -q "AIDES-Brain-continuity-latest.zip" -d recovery-test
           (cd recovery-test && sha256sum -c SHA256SUMS)
-          git bundle verify recovery-test/*.bundle
           git clone --quiet recovery-test/*.bundle restored-checkout
+          git -C restored-checkout bundle verify "$(pwd)"/recovery-test/*.bundle
           test "$(git -C restored-checkout rev-parse HEAD)" = "$(git rev-parse HEAD)"
           echo "RECOVERY_PROOF_OK: checksums verified and git HEAD restored"
       - name: Retain run snapshot
