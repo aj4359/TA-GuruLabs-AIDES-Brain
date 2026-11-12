@@ -18,6 +18,7 @@ import uuid
 from pathlib import Path
 
 from mcp.server.fastmcp import FastMCP
+from .library import register_asset, list_assets
 
 ROOT = Path(os.environ.get("VOICEFORGE_DATA_DIR", "./voiceforge-data")).resolve()
 ROOT.mkdir(parents=True, exist_ok=True)
@@ -104,6 +105,9 @@ def transcribe(source: str, language: str = "en") -> str:
     segments, _ = model.transcribe(str(src), language=language)
     return " ".join(segment.text.strip() for segment in segments).strip()
 
+
+MCP.tool()(register_asset)
+MCP.tool()(list_assets)
 
 if __name__ == "__main__":
     MCP.run(transport="stdio")
