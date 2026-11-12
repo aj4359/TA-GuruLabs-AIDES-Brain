@@ -56,6 +56,18 @@ jobs:
           PY
           (cd continuity-export && zip -q -9 "../AIDES-Brain-continuity-latest.zip" "AIDES-Brain.bundle" RECENT_COMMITS.txt RESTORE.txt SHA256SUMS MANIFEST.json)
           sha256sum "AIDES-Brain-continuity-latest.zip" > "AIDES-Brain-continuity-latest.zip.sha256"
+      - name: Prove ZIP checksums and offline Git restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum -c "AIDES-Brain-continuity-latest.zip.sha256"
+          mkdir -p recovery-test
+          unzip -q "AIDES-Brain-continuity-latest.zip" -d recovery-test
+          (cd recovery-test && sha256sum -c SHA256SUMS)
+          git bundle verify recovery-test/*.bundle
+          git clone --quiet recovery-test/*.bundle restored-checkout
+          test "$(git -C restored-checkout rev-parse HEAD)" = "$(git rev-parse HEAD)"
+          echo "RECOVERY_PROOF_OK: checksums verified and git HEAD restored"
       - name: Retain run snapshot
         uses: actions/upload-artifact@v4
         with:
