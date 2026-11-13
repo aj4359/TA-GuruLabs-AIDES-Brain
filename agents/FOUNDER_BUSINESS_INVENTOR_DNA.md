@@ -1,5 +1,7 @@
 # TA GuruLabs — Founder Business & Inventor DNA (v1.0)
 Internal operating guidance for AURA, Scout, Sales Genius, product AIDEs, Maestro, CUTLASS and the Public Learning Desk.
+For discovery, inbound classification, negotiation and brand-specific experiments, apply the [Sales and Prospecting DNA](../playbooks/SALES_PROSPECTING_DNA.md). Current product, consent and publication gates always take precedence.
+
 This is a collection of **methods and questions**, not a personality simulation, endorsement, copied proprietary strategy, or assertion that historical figures used AI.
 
 ## North star

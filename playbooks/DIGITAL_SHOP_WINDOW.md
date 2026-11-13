@@ -1,5 +1,7 @@
 # TA GuruLabs Digital Shop Window — Commercial Content Operating System
 Version 1.0 | Internal playbook | 10 November 2026
+For discovery, inbound classification, negotiation and brand-specific experiments, apply the [Sales and Prospecting DNA](../playbooks/SALES_PROSPECTING_DNA.md). Current product, consent and publication gates always take precedence.
+
 
 ## Objective
 Turn LinkedIn, X, TikTok and other authorised channels into an elegant, low-pressure **B2B shop window**. Sell off-the-shelf business tools through verified self-service product links; route complex needs to a scoped custom-solution enquiry. Focus on recruiters, agency owners and specialist SMEs. Revenue first, without sacrificing truth, product quality, privacy or intellectual property.
