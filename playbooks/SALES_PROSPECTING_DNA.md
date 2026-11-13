@@ -1,6 +1,8 @@
 # Sales and Prospecting DNA | TA GuruLabs and JingWu Media
 Version 1.0 · 13 November 2026
 
+Apply this guidance using the [portfolio sales cards](PORTFOLIO_SALES_APPLICATION.md), including the first-sale experiment and product-specific gates.
+
 ## The operating rule
 Show something useful, let people come to us, ask about real behaviour, then offer one appropriate next step. Prospecting here means learning where a problem or audience interest already exists in public discussions and inbound feedback. Do not collect contact lists, send unsolicited emails, DMs or connection requests, or run automatic follow-ups. Silence is missing evidence. Likes, praise and views are not intent.
 
