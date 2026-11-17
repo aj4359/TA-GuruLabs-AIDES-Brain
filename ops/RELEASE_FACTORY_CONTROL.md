@@ -30,7 +30,7 @@ AUREUS = portfolio arbitration, WIP and first revenue; Haven = inbox/fulfilment/
 | Media | JingWu audio distribution, including Habibi | Teaser URLs verified, full DSP distribution unverified in issue | Collect approved master/metadata/rights, select distributor, submit and verify public URL | #97 |
 | Media | Sicario comic retail edition | Teaser held; checkout not verified | Find final source file, QA numbered edition, test buyer delivery | #97 |
 | Media | Sicario moving footage | Engine and continuity blocker documented | Capture source assets, produce genuinely moving test, verify duration/audio; no still montage disguised as moving footage | #86 #71 |
-| Media | BMK and Operation Newland | Cinematic work tracked; no release evidence in current check | Inventory source files; identify one minimal clip and test playback | #86 |
+| Media | BMK and Operation Neuland | Cinematic work tracked; no release evidence in current check | Inventory source files; identify one minimal clip and test playback | #86 |
 | Media | I Need It Tonight / Haunted / Turn Out the Light | User reported unfinished revisions; final release not verified | Identify authoritative master and preserved footage; listen/view from start to finish; close only reproducible defects | #97 |
 | Software | HUNTR-X | Demo and consent gate open | Verify mobile journey, data consent and functioning buyer/user path | #69 #81 |
 | Software | PAYE Forensics | Research and gated pilot work | Validate user outcome, avoid unsupported tax or HMRC affiliation claims; choose if closest to paid delivery | #58 #59 |
