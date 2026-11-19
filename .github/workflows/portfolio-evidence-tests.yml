@@ -1,0 +1,22 @@
+name: Portfolio Evidence Decision Tests
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'portfolio_decisions/**'
+      - '.github/workflows/portfolio-evidence-tests.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test scoring and hard gates
+        run: cd portfolio_decisions && python -m unittest -v test_engine.py
+      - name: Verify empty evidence generates no false winners
+        run: python portfolio_decisions/engine.py portfolio_decisions/evidence.json portfolio_decisions/output/priorities.json
