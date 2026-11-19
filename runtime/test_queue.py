@@ -2,13 +2,11 @@
 import tempfile
 import unittest
 from pathlib import Path
-from queue import SimpleQueue
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from queue import SimpleQueue
 import importlib.util
 
-spec = importlib.util.spec_from_file_location("aides_queue", Path(__file__).with_name("queue.py"))
+spec = importlib.util.spec_from_file_location("aides_queue", Path(__file__).with_name("task_ledger.py"))
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 
