@@ -6,10 +6,10 @@ This is an **initial, non-deployed, local queue**, not a live autonomous agent w
 
 ```bash
 python -m unittest discover -s runtime -p 'test_*.py'
-python runtime/queue.py add --title "Test DocuGuard demo" --kind quality_check --owner CONTINUITY_GUARD --project DocuGuard --acceptance "Capture passing checks and a demo URL"
-python runtime/queue.py list
-python runtime/queue.py set TASK_ID running
-python runtime/queue.py set TASK_ID done --evidence "test-results/docuguard.txt"
+python runtime/task_ledger.py add --title "Test DocuGuard demo" --kind quality_check --owner CONTINUITY_GUARD --project DocuGuard --acceptance "Capture passing checks and a demo URL"
+python runtime/task_ledger.py list
+python runtime/task_ledger.py set TASK_ID running
+python runtime/task_ledger.py set TASK_ID done --evidence "test-results/docuguard.txt"
 ```
 
 A task transitions pending -> running -> done/failed/blocked; blocked and failed can return to pending. Done requires evidence, blocked requires a reason. Changes are persisted in a local SQLite database with append-only audit entries (application-level; a database administrator can still modify them). No remote execution is included.
