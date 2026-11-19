@@ -15,13 +15,17 @@ jobs:
         with:
           python-version: '3.12'
       - name: Run deterministic tests
-        run: cd retail_desk && python -m unittest -v test_scout.py
+        run: cd retail_desk && python -m unittest -v test_scout.py test_prioritize.py
       - name: Fetch public feed titles and classify research leads
         run: python retail_desk/scout.py retail_desk/output/latest.json
-      - name: Archive dated read-only research report
+      - name: Evaluate sourced opportunity evidence cards
+        run: python retail_desk/prioritize.py retail_desk/opportunities.json retail_desk/output/priorities.json
+      - name: Archive dated read-only research reports
         uses: actions/upload-artifact@v4
         with:
           name: retail-opportunity-leads-${{ github.run_number }}
-          path: retail_desk/output/latest.json
+          path: |
+            retail_desk/output/latest.json
+            retail_desk/output/priorities.json
           retention-days: 30
           if-no-files-found: error
