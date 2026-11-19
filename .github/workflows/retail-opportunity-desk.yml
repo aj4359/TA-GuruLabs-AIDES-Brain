@@ -1,0 +1,27 @@
+name: Retail Opportunity Desk (research only)
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 7 * * 1-5'
+permissions:
+  contents: read
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run deterministic tests
+        run: cd retail_desk && python -m unittest -v test_scout.py
+      - name: Fetch public feed titles and classify research leads
+        run: python retail_desk/scout.py retail_desk/output/latest.json
+      - name: Archive dated read-only research report
+        uses: actions/upload-artifact@v4
+        with:
+          name: retail-opportunity-leads-${{ github.run_number }}
+          path: retail_desk/output/latest.json
+          retention-days: 30
+          if-no-files-found: error
