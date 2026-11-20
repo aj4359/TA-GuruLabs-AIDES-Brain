@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "task_id": "EXAMPLE-001",
+  "project": "example",
+  "agent": "AUREUS",
+  "owner": "role-or-system",
+  "objective": "A measurable deliverable",
+  "status": "BACKLOG",
+  "priority": "P1",
+  "inputs": [],
+  "dependencies": [],
+  "skills": [],
+  "tools_allowed": [],
+  "permissions": {
+    "research": true,
+    "edit_code": false,
+    "deploy": false,
+    "publish": false,
+    "spend": false
+  },
+  "budget": {
+    "currency": "GBP",
+    "cap": 0,
+    "actual": 0
+  },
+  "acceptance_criteria": [],
+  "checkpoint": {
+    "last_completed_step": null,
+    "next_action": null,
+    "updated_at": null
+  },
+  "evidence": {
+    "repository": null,
+    "commit": null,
+    "tests": [],
+    "deployment_url": null,
+    "transaction_reference": null
+  },
+  "risk_flags": [],
+  "reviewer": null,
+  "measured_outcome": null
+}
