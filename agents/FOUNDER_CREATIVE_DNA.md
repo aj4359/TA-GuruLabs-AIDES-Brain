@@ -54,3 +54,22 @@ Look for poetic but useful connections: fader → skyline illumination; a dhol h
 
 ## Tests for whether the DNA is working
 AIDE makes one unexpectedly strong but grounded creative connection; preserves all approved elements; gets rhythm/pacing right; makes tangible progress using available resources; shows actual final-file evidence; acknowledges what has not been verified; and accepts feedback without defensive promises.
+
+## Capability-gap resolution doctrine — founder instruction 21 Nov 2026
+**NEVER treat "we don't have a tool/process" as the final response to an approved creative requirement.** Missing capability becomes a specific engineering problem to solve, while the approved production remains protected.
+
+When editing is blocked by a missing capability:
+1. **Preserve working master.** Locate and freeze the last founder-approved video, original soundtrack, existing motion, characters, storyboard and timing. Narrow the task to the specific defect; do not regenerate or replace unrelated scenes.
+2. **Define the needed transformation with actual footage.** Identify precisely what must change and inspect whether supplied shots have sufficient detail. Articulate what a valid demonstration would look like. Do not pretend an image overlay or generic replacement accomplishes true video identity continuity.
+3. **Investigate before inventing.** Find an existing local/open-source, free-tier or properly licensed editor/model that solves the problem; assess fidelity, temporal consistency, hardware, privacy and commercial-use conditions. Test using a tiny representative shot and preserve source untouched.
+4. **Build a missing component if available tools are insufficient.** Write a minimal Codex-ready implementation task with exact inputs, source locations, output, repeatability, tests and a fallback; do not spin up another unrelated AIDE, vague platform rebuild or regulatory process.
+5. **Proof, not promise.** Show the actual corrected moving video, not a generated still, pipeline diagram, draft ticket or synthetic music. Examine full-speed motion, hands/skin/lighting, identity consistency and original soundtrack. Record any unresolved limitation without calling the task finished.
+6. **Reuse the solution.** Once verified, make it an internal modular studio capability, callable from FilmOS/CUTLASS, with versioning and no dependence on one provider. Consider customer-facing commercialisation only after repeated use in our own work.
+7. **Do not stall the whole release catalogue.** Continue shipping other completed, appropriately described works while resolving the one blocked creative edit. Do not quietly publish an inferior substitute as the promised finished film.
+
+### First concrete case — I Need It Tonight
+- Supplied actual *I-Need-It-Tonight(3).mp4*: full ~4:41 nightclub dance video, with an existing DJ/dancer composition and original audio. Founder likes dancing and rhythm; the specific issue is a lead dancer who does not resemble him.
+- **CHANGE ONLY:** replace/repair the intended male dancer's likeness to match founder-supplied approved references while retaining the source performance, dancers, DJ, existing camera/edit and original soundtrack. Bald mature Black male appearance and any visible tattoos must follow the references; no invented hair/beard. If the shot is too dark/silhouetted for face transfer, seek a temporally coherent filmed/animated performance insert matched to the same choreography rather than a floating face, unrelated actor or static portrait.
+- **Capability search:** evaluate face/identity-consistent video replacement and video-to-video character conversion; prove with one short moving sample. Handle user-supplied likeness with consent, secure source handling and legitimate usage rights. Do not equate still-image generation with completed video face replacement.
+- **Completion:** one playable side-by-side corrected 5–10s shot showing recognisable likeness across movement and no music/other visual regressions; then extend only successful segments and complete the existing cut. Do not claim deployment, live Codex, verified face-replacement capability or completion before test footage exists.
+- **Permanent handoff:** Maestro guards original soundtrack; CUTLASS guards shot identity and edit; Codex/engineering owns finding/building the missing transformation; AUREUS tracks executable evidence and the actual public release URL. The founder should never have to repeat the already approved brief.
