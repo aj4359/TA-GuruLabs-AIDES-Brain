@@ -1,0 +1,42 @@
+[
+  {
+    "id": "AIDE-001",
+    "type": "inspect",
+    "description": "Map repository and identify existing tests",
+    "actions": [
+      "read"
+    ]
+  },
+  {
+    "id": "AIDE-002",
+    "type": "prototype",
+    "description": "Prepare T-Miser integration on isolated branch",
+    "actions": [
+      "write_branch"
+    ]
+  },
+  {
+    "id": "AIDE-003",
+    "type": "test",
+    "description": "Run local test suite in sandbox",
+    "actions": [
+      "test"
+    ]
+  },
+  {
+    "id": "AIDE-004",
+    "type": "document",
+    "description": "Draft evidence-based case study from verified results",
+    "actions": [
+      "draft"
+    ]
+  },
+  {
+    "id": "AIDE-005",
+    "type": "release",
+    "description": "Publish production release",
+    "actions": [
+      "deploy"
+    ]
+  }
+]
