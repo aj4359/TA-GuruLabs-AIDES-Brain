@@ -1,0 +1,24 @@
+name: Astra adapter offline tests
+on:
+  push:
+    paths:
+      - "runtime/**"
+      - ".github/workflows/astra-video-tests.yml"
+  pull_request:
+    paths:
+      - "runtime/**"
+      - ".github/workflows/astra-video-tests.yml"
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile runtime
+        run: python -m compileall -q runtime
+      - name: Astra adapter tests, mocked API, zero charges
+        run: python -m unittest discover -s runtime -p "test_*.py" -v
