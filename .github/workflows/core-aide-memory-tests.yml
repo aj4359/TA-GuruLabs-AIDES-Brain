@@ -1,0 +1,26 @@
+name: Core AIDE memory context contract
+on:
+  push:
+    paths:
+      - "continuity/aide_memory_store.py"
+      - "continuity/context_packet.py"
+      - "continuity/test_context_packet.py"
+      - ".github/workflows/core-aide-memory-tests.yml"
+  pull_request:
+    paths:
+      - "continuity/aide_memory_store.py"
+      - "continuity/context_packet.py"
+      - "continuity/test_context_packet.py"
+      - ".github/workflows/core-aide-memory-tests.yml"
+jobs:
+  scoped-context:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Core private/team/project isolation tests
+        run: python -m unittest discover -s continuity -p 'test_context_packet.py' -v
