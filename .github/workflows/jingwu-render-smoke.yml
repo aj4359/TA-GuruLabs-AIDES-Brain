@@ -1,0 +1,31 @@
+name: JingWu full-song renderer smoke test
+on:
+  push:
+    paths:
+      - "runtime/jingwu_production.py"
+      - "runtime/test_jingwu_production_smoke.py"
+      - ".github/workflows/jingwu-render-smoke.yml"
+  pull_request:
+    paths:
+      - "runtime/jingwu_production.py"
+      - "runtime/test_jingwu_production_smoke.py"
+      - ".github/workflows/jingwu-render-smoke.yml"
+  workflow_dispatch:
+jobs:
+  render-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deterministic render dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m pip install "numpy<3" "opencv-python-headless<5" pillow
+      - name: Run real media export and FFmpeg decode verification
+        run: python runtime/test_jingwu_production_smoke.py
