@@ -79,20 +79,19 @@ def main():
     try:
         for k in range(frames):
             t=k/fps
-            if t<intro-fade:
+            if t<intro:
+                # Keep narrator on screen THROUGH the final spoken syllable.
                 frame=move(prep[0],t/intro,0,w,h)
-            elif t<intro:
-                # Fade in first story image *ending* on measured intro boundary.
-                a=move(prep[0],t/intro,0,w,h)
-                b=move(prep[1],max(0,(t-intro+fade)/slot),1,w,h)
-                aweight=(1-math.cos(math.pi*(t-intro+fade)/fade))/2
-                frame=cv2.addWeighted(a,1-aweight,b,aweight,0)
             else:
+                # Start the FIRST dissolve exactly at the approved music entrance.
                 t-=intro
                 idx=min(N-1,int(t/step))
                 local=t-idx*step
-                if idx>0 and local<fade:
-                    prev=move(prep[idx],min(1,(local+step)/slot),idx,w,h)
+                if local<fade:
+                    if idx==0:
+                        prev=move(prep[0],1,0,w,h)
+                    else:
+                        prev=move(prep[idx],min(1,(local+step)/slot),idx,w,h)
                     new=move(prep[idx+1],min(1,local/slot),idx+1,w,h)
                     weight=(1-math.cos(math.pi*local/fade))/2
                     frame=cv2.addWeighted(prev,1-weight,new,weight,0)
