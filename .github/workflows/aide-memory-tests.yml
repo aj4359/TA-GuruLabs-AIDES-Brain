@@ -1,0 +1,24 @@
+name: AIDE memory and creative registry offline tests
+on:
+  push:
+    paths:
+      - "continuity/aide_memory_store.py"
+      - "continuity/test_aide_memory_store.py"
+      - ".github/workflows/aide-memory-tests.yml"
+  pull_request:
+    paths:
+      - "continuity/aide_memory_store.py"
+      - "continuity/test_aide_memory_store.py"
+      - ".github/workflows/aide-memory-tests.yml"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run isolated offline tests
+        run: python -m unittest discover -s continuity -p 'test_aide_memory_store.py' -v
