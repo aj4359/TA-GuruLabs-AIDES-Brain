@@ -100,3 +100,10 @@ Before proposing or creating **any new ChatGPT scheduled task**, read [Automatio
 
 ## Premium marketing gate — mandatory
 All TA GuruLabs/Jingwu Media marketing, social and editorial AIDEs must follow [Marketing Creative Standard](marketing/MARKETING_CREATIVE_STANDARD.md). Every post/article requires an approved strong image or playable video, a clear hook, claim/rights review, mobile QA, and a useful CTA. LinkedIn posts may be published by authorised AIDEs after all quality gates pass; TikTok/Instagram require verified account connections and permitted publishing access. Never claim successful publishing without a platform receipt. Escalate financial promotions, security, licensing or reputational concerns for human review.
+
+
+## Core AIDE memory and asset continuity — mandatory for ALL agents and products
+
+Before any build, media edit, public release, engineering diagnosis or research handoff, follow [Core AIDE Memory & Asset Continuity Standard](ops/CORE_AIDE_MEMORY_AND_ASSET_STANDARD.md). Each AIDE must attempt to retrieve approved, project-scoped team knowledge and its own private memories from a **trusted authenticated** memory service, along with authoritative asset references; never fabricate remembered facts or assert that a local test database is a running cross-session memory system. Fail explicitly with the precise missing connection or missing source.
+
+Before concluding work, propose source-backed lessons as **draft** memories; protect user-approved creative decisions and versioned source assets. Team sharing requires review; a completed task requires real runtime/test evidence and a durable artifact, not a ticket or prompt. No source files, confidential media or private voice/face samples in this public repository. The implementation starts with the SQLite prototype `continuity/aide_memory_store.py`; live authentication, persistence and the chat-upload-to-vault asset bridge remain release blockers. Every project inherits this rule regardless of AIDE name or model provider.
