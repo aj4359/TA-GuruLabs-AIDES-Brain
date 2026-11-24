@@ -1,0 +1,24 @@
+name: Private AIDE memory HTTP integration
+on:
+  push:
+    paths:
+      - 'continuity/memory_api.py'
+      - 'continuity/test_memory_api.py'
+      - '.github/workflows/memory-http-integration.yml'
+  pull_request:
+    paths:
+      - 'continuity/memory_api.py'
+      - 'continuity/test_memory_api.py'
+      - '.github/workflows/memory-http-integration.yml'
+jobs:
+  real-http:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run actual loopback HTTP end-to-end tests
+        run: python -m unittest continuity.test_memory_api -v
