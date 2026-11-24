@@ -55,6 +55,42 @@ class LiveMemoryAPITests(unittest.TestCase):
         self.assertEqual(self.api("POST","/v1/memories/approve","founder-test-secret-2026",{"project":"SICARIO","id":out["id"]})[0],200)
         after=self.api("GET","/v1/context?project=SICARIO","maestro-test-secret-2026")[1]["approved_memories"]
         self.assertTrue(any(m["id"]==out["id"] for m in after))
+    def test_actual_server_restart_retains_approved_memory(self):
+        # Start a separate instance, shut it down, then start another server
+        # pointing at the same durable SQLite file. Use an entirely new client.
+        from continuity.memory_api import load_identities, serve
+        import urllib.request
+        db=str(Path(self.tmp.name)/"restart-memory.sqlite3")
+        ids=load_identities(json.dumps([
+            person("founder","founder","restart-founder-token",["BARD"]),
+            person("CUTLASS","aide","restart-cutlass-token",["BARD"]),
+        ]))
+        def request(server,method,path,token,obj=None):
+            body=json.dumps(obj).encode() if obj is not None else None
+            req=urllib.request.Request(
+                "http://127.0.0.1:"+str(server.server_address[1])+path,
+                data=body,method=method,
+                headers={"Authorization":"Bearer "+token,"Content-Type":"application/json"})
+            with urllib.request.urlopen(req,timeout=5) as resp:return json.load(resp)
+        first=serve(db,ids,0)
+        t=threading.Thread(target=first.serve_forever,daemon=True);t.start()
+        try:
+            created=request(first,"POST","/v1/memories/draft","restart-cutlass-token",{
+                "project":"BARD","type":"lesson","content":"Approved timing cue survives process restart",
+                "source_ref":"test:independent-worker-restart","visibility":"team"})
+            request(first,"POST","/v1/memories/approve","restart-founder-token",
+                    {"project":"BARD","id":created["id"]})
+        finally:
+            first.shutdown();first.server_close();t.join(timeout=3)
+        second=serve(db,ids,0)
+        t2=threading.Thread(target=second.serve_forever,daemon=True);t2.start()
+        try:
+            pkt=request(second,"GET","/v1/context?project=BARD","restart-cutlass-token")
+            self.assertEqual(len(pkt["approved_memories"]),1)
+            self.assertEqual(pkt["approved_memories"][0]["id"],created["id"])
+        finally:
+            second.shutdown();second.server_close();t2.join(timeout=3)
+
     def test_reject_bad_identity_configuration(self):
         with self.assertRaises(ValueError):
             load_identities("[]")
